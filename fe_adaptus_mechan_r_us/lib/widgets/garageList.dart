@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../classes/garage.dart';
 
 class GarageList extends StatefulWidget {
   @override
@@ -7,7 +8,13 @@ class GarageList extends StatefulWidget {
 }
 
 class _GarageListState extends State<GarageList> {
-  List garages = [{"name": "garagetown", "price": "£££", "distance": "10miles"},{"name": "mechanic man", "price": "£", "distance": "12miles"},{"name": "bob bobsworth", "price": "££", "distance": "15miles"}, {"name": "the spannerworks", "price": "£££", "distance": "22miles"}, {"name": "johnny motors", "price": "££", "distance": "30miles"}];
+  List<Garage> garages = [
+    Garage("garagetown","£££", "10miles"),
+    Garage("mechanic man", "£", "12miles"),
+    Garage("bob bobsworth", "££", "15miles"),
+    Garage("the spannerworks", "£££", "22miles"),
+    Garage("johnny motors", "££", "30miles")
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +39,13 @@ class _GarageListState extends State<GarageList> {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: <Widget>[
-              Text(garages[index]["name"], style: new TextStyle(fontSize: 20.0),),
+              Text(garages[index].name, style: new TextStyle(fontSize: 20.0),),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Text(garages[index]["price"]),
+                child: Text(garages[index].price),
               ),
-              Text(garages[index]["distance"]),
+              Text(garages[index].distance),
             ],
           ),
         ),
