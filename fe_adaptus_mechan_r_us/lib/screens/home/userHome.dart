@@ -6,7 +6,6 @@ class UserHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GarageList(),
-
           // List with garages and navbar will go here
     );
   }
