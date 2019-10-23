@@ -23,12 +23,19 @@ class _GarageListState extends State<GarageList> {
   Widget garageListCard (BuildContext context, int index) {
     return new Container(
       child: Card(
-        child: Row(
-          children: <Widget>[
-            Text(garages[index]["name"]),
-            Text(garages[index]["price"]),
-            Text(garages[index]["distance"])
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: <Widget>[
+              Text(garages[index]["name"]),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Text(garages[index]["price"]),
+              ),
+              Text(garages[index]["distance"])
+            ],
+          ),
         ),
       ),
     );
