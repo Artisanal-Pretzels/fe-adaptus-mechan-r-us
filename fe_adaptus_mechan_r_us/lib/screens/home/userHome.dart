@@ -1,5 +1,5 @@
 import 'package:fe_adaptus_mechan_r_us/widgets/garageList.dart';
-import  'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class UserHome extends StatelessWidget {
   @override
@@ -7,7 +7,7 @@ class UserHome extends StatelessWidget {
     return Container(
       child: GarageList(),
 
-          // List with garages and navbar will go here
+      // List with garages and navbar will go here
     );
   }
 }
