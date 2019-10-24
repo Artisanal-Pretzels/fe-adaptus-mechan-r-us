@@ -51,23 +51,57 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                             ),
                             new Padding(padding: const EdgeInsets.only(top:20.0),
                             ),
-                            new MaterialButton(color: Colors.cyan,textColor: Colors.black,
-                              child: new Text('Login'),
-                              onPressed: (){},
-                              splashColor: Colors.red,
-                              shape: StadiumBorder(),
+                            Container(
                               height: 40.0,
-                              minWidth: 310.0,
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.redAccent,
+                                color: Colors.cyan,
+                                elevation: 10.0,
+                                child:GestureDetector(
+                                  onTap: (){},
+                                  child: Center(
+                                    child: Text('Login'),
+                                  ),
+                                ),
+                              ),
                             ),
-                            new MaterialButton(color: Colors.cyan,textColor: Colors.black,
-                              child: new Text('Signup'),
-                              onPressed: (){},
-                              splashColor: Colors.red,
-                              height: 40.0,
-                              minWidth: 310.0,
-                              shape: StadiumBorder(),
+                            SizedBox(height: 20.0),
+                              Container(
+                                height: 40.0,
+                                color:Colors.transparent,
+                                child: Container(
+                                decoration: BoxDecoration(
+                                  border:Border.all(
+                                    color: Colors.cyan,
+                                    style: BorderStyle.solid,
+                                    width:2.0,
+                                  ),
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(20.0)
+                                ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Center(
+                                        child: Icon(Icons.directions_car,
+                                            color:Colors.black),
+                                      ),
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            Navigator.push(context,new MaterialPageRoute(builder: (context) => ))
+                                          },
+                                          child: Center(
+                                            child: Text('Sign Up'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ),
+                            ),
 
-                            )
                           ],
                         ),
                       ),
