@@ -3,11 +3,13 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/fe_adaptus_mechan_r_us/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/fe_adaptus_mechan_r_us/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/fe_adaptus_mechan_r_us/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>
