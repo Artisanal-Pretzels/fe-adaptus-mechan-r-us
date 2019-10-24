@@ -5,8 +5,7 @@ import 'authentication/user-authentication.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     // return Authenticate widget or userHome widget depepending on login status
-    return UserAuthenticate();
+    return UserHome();
   }
 }
