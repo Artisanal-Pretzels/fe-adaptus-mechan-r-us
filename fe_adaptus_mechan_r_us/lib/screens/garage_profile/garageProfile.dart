@@ -7,6 +7,7 @@ class GarageProfile extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Garage Details'),
+          centerTitle: true,
         ),
         body: GarageOverview());
   }
@@ -18,7 +19,7 @@ class GarageOverview extends StatefulWidget {
 }
 
 class _GarageOverviewState extends State<GarageOverview> {
-  var testGarage = new Garage("garagetown", "£££", "10miles");
+  var testGarage = new Garage("Garagetown", "£££", "10miles");
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,42 @@ class _GarageOverviewState extends State<GarageOverview> {
           callButton,
         ]);
   }
+
+  Widget titleInfo = Container(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          Expanded(
+            child:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  'Garage name',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                ),
+              ),
+              Text(
+                'Distance',
+                style: TextStyle(
+                  color: Colors.black87,
+                ),
+              ),
+            ]),
+          ),
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text('Rating'),
+            ),
+            Text('Price'),
+          ])
+        ],
+      ));
+
 }
 
 Widget topImage = Container(
@@ -43,79 +80,11 @@ Widget topImage = Container(
   ),
 );
 
-Widget titleInfo = Container(
-    padding: const EdgeInsets.all(32),
-    child: Row(
-      children: [
-        Expanded(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                'Garage Name',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Text(
-              'Distance',
-              style: TextStyle(
-                color: Colors.black87,
-              ),
-            ),
-          ]),
-        ),
-        Column(children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text('Rating'),
-          ),
-          Text('Price'),
-        ])
-      ],
-    ));
 
-Widget titleSection = Container(
-  padding: const EdgeInsets.all(32),
-  child: Row(
-    children: [
-      Expanded(
-        /*1*/
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /*2*/
-            Container(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                'Oeschinen Lake Campground',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Text(
-              'Kandersteg, Switzerland',
-              style: TextStyle(
-                color: Colors.grey[500],
-              ),
-            ),
-          ],
-        ),
-      ),
-      /*3*/
-      Icon(
-        Icons.star,
-        color: Colors.red[500],
-      ),
-      Text('41'),
-    ],
-  ),
-);
+Widget callButton = Container(
+margin: const EdgeInsets.all(10.0),
 
-Widget callButton = MaterialButton(
+    child: MaterialButton(
     padding: EdgeInsets.all(20.0),
     onPressed: callButtonPressed,
     color: Colors.blue,
@@ -134,7 +103,9 @@ Widget callButton = MaterialButton(
           ),
         ),
       ]),
-    ));
+    ))
+);
+
 
 Widget callButton2 = Container(
     padding: const EdgeInsets.all(32),
