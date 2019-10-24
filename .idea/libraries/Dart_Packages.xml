@@ -90,6 +90,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../flutter/bin/cache/pkg/sky_engine/lib" />
+
             </list>
           </value>
         </entry>
@@ -103,6 +104,7 @@
         <entry key="stack_trace">
           <value>
             <list>
+
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.9.3/lib" />
             </list>
           </value>
@@ -110,6 +112,7 @@
         <entry key="stream_channel">
           <value>
             <list>
+
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.0.0/lib" />
             </list>
           </value>
@@ -124,6 +127,7 @@
         <entry key="term_glyph">
           <value>
             <list>
+
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.1.0/lib" />
             </list>
           </value>
@@ -131,6 +135,7 @@
         <entry key="test_api">
           <value>
             <list>
+
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.5/lib" />
             </list>
           </value>
