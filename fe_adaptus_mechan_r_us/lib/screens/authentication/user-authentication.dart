@@ -90,7 +90,7 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                                       Center(
                                         child: GestureDetector(
                                           onTap: (){
-                                            Navigator.push(context,new MaterialPageRoute(builder: (context) => ))
+//                                            Navigator.push(context,new MaterialPageRoute(builder: (context) => ));
                                           },
                                           child: Center(
                                             child: Text('Sign Up'),

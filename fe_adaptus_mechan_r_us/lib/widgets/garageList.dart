@@ -1,3 +1,5 @@
+import 'package:fe_adaptus_mechan_r_us/screens/garage_list_view/garage_list_view.dart';
+import 'package:fe_adaptus_mechan_r_us/screens/garage_profile/garageProfile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../classes/garage.dart';
@@ -31,8 +33,9 @@ class _GarageListState extends State<GarageList> {
       child: Card(
         child: new InkWell(
           onTap: () {
-            // can add navigation here to garage page
-            print(index.toString());
+            Navigator.push(context, new MaterialPageRoute(
+              builder: (context) => GarageProfile()
+            ));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

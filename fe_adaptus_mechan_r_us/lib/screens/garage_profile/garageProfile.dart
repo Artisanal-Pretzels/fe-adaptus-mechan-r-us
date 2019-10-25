@@ -6,7 +6,7 @@ class GarageProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Garage Details'),
+          title: Text('Garage Details'),
           centerTitle: true,
         ),
         body: GarageOverview());
