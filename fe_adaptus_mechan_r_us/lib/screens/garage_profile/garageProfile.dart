@@ -30,6 +30,7 @@ class _GarageOverviewState extends State<GarageOverview> {
           topImage,
           titleInfo,
           callButton,
+          GarageDescription(),
         ]);
   }
 
@@ -106,21 +107,41 @@ margin: const EdgeInsets.all(10.0),
     ))
 );
 
-
-Widget callButton2 = Container(
-    padding: const EdgeInsets.all(32),
-    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(Icons.call),
-      Container(
-        margin: const EdgeInsets.only(top: 8),
-        child: Text(
-          'Call',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-        ),
-      ),
-    ]));
-
 void callButtonPressed() {
   //make call here
   return print("call");
 }
+
+class GarageDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[
+          Container(
+            padding: EdgeInsets.only(bottom: 16.0),
+            child: Text(
+              'Garage Description',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+
+            ),
+          ),
+
+          Text(
+            'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
+            style: TextStyle(fontSize: 20,),
+          ),
+        ],
+      )
+
+
+    );
+  }
+}
+
