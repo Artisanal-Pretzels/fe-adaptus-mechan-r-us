@@ -1,6 +1,5 @@
+import 'package:fe_adaptus_mechan_r_us/screens/user-wrapper.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/user-wrapper.dart';
 
 void main() => runApp(MyApp());
 

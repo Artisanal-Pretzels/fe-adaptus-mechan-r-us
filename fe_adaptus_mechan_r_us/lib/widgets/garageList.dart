@@ -16,7 +16,6 @@ class _GarageListState extends State<GarageList> {
     Garage("johnny motors", "££", "30miles")
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,9 @@
-//import 'package:fe_adaptus_mechan_r_us/screens/home/userHome.dart';
+
+import 'package:fe_adaptus_mechan_r_us/screens/authentication/user-authentication.dart';
+import 'package:fe_adaptus_mechan_r_us/screens/garage_profile/garageProfile.dart';
+import 'package:fe_adaptus_mechan_r_us/screens/home/userHome.dart';
+import 'package:fe_adaptus_mechan_r_us/widgets/garageList.dart';
 import 'package:flutter/material.dart';
-import 'authentication/user-authentication.dart';
 
 class Wrapper extends StatelessWidget {
   @override
