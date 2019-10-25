@@ -110,6 +110,7 @@
         <entry key="stream_channel">
           <value>
             <list>
+
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.0.0/lib" />
             </list>
           </value>
@@ -139,6 +140,7 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.1.6/lib" />
+
             </list>
           </value>
         </entry>
