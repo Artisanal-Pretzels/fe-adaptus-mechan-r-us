@@ -14,12 +14,16 @@ class _GarageListViewState extends State<GarageListView> {
     GarageList(),
     Settings(),
   ];
+  List _pageTitles = [
+    'Garage List',
+    'Settings',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Garage List'),
+          title: Text(_pageTitles.elementAt(_navBarIndex)),
           centerTitle: true,
         ),
         body: _pageViews.elementAt(_navBarIndex),
