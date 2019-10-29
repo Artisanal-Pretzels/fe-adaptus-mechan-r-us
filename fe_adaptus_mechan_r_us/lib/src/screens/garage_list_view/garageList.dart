@@ -1,5 +1,5 @@
-import 'package:fe_adaptus_mechan_r_us/screens/garage_list_view/garage_list_view.dart';
-import 'package:fe_adaptus_mechan_r_us/screens/garage_profile/garageProfile.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garage_list_view.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../classes/garage.dart';

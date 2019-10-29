@@ -1,4 +1,4 @@
-import 'package:fe_adaptus_mechan_r_us/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:flutter/material.dart';
 
 class GarageProfile extends StatelessWidget {
