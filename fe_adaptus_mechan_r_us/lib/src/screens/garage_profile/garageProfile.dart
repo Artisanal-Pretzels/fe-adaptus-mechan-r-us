@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 class GarageProfile extends StatefulWidget {
   final Garage garageDistance;
-  GarageProfile({this.garageDistance});
+  GarageProfile(this.garageDistance);
 
   @override
   _GarageProfileState createState() => _GarageProfileState();
