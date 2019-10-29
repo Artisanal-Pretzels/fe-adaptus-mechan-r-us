@@ -1,7 +1,28 @@
 import 'package:fe_adaptus_mechan_r_us/classes/garage.dart';
 import 'package:flutter/material.dart';
 
-class GarageProfile extends StatelessWidget {
+//class  extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//        appBar: AppBar(
+//          title: Text('Garage Details'),
+//          centerTitle: true,
+//        ),
+//        body: GarageOverview());
+//  }
+//}
+
+class GarageProfile extends StatefulWidget {
+  final Garage garageDistance;
+  GarageProfile({this.garageDistance});
+
+  @override
+  _GarageProfileState createState() => _GarageProfileState();
+}
+
+class _GarageProfileState extends State<GarageProfile> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,6 +33,7 @@ class GarageProfile extends StatelessWidget {
         body: GarageOverview());
   }
 }
+
 
 class GarageOverview extends StatefulWidget {
   @override

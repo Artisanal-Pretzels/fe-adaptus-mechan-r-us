@@ -44,7 +44,7 @@ class _GarageListState extends State<GarageList> {
         child: new InkWell(
           onTap: () {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => GarageProfile()));
+                new MaterialPageRoute(builder: (context) => GarageProfile(garages[index])));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -78,7 +78,6 @@ Future<List<Garage>> getGarages() async {
   for (var garage in data) {
     Garage aGarage = Garage.fromJson(garage);
     garageList.add(aGarage);
-    print(garageList);
   }
   return garageList;
 }
