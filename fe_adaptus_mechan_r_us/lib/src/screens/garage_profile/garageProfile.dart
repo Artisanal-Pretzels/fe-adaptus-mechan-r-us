@@ -19,7 +19,11 @@ class GarageOverview extends StatefulWidget {
 }
 
 class _GarageOverviewState extends State<GarageOverview> {
-  var testGarage = new Garage("Garagetown", "£££", "10miles");
+  var testGarage = new Garage(1, "saphire garage", 5, 90, {
+    'duration': '1 hour 20',
+    "durationTraffic": "1 hour 26 mins",
+    "distance": "110 km"
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class _GarageOverviewState extends State<GarageOverview> {
         children: [
           Expanded(
             child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
                 padding: EdgeInsets.only(bottom: 16.0),
                 child: Text(
@@ -48,7 +52,6 @@ class _GarageOverviewState extends State<GarageOverview> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
-
                 ),
               ),
               Text(
@@ -68,7 +71,6 @@ class _GarageOverviewState extends State<GarageOverview> {
           ])
         ],
       ));
-
 }
 
 Widget topImage = Container(
@@ -81,31 +83,28 @@ Widget topImage = Container(
   ),
 );
 
-
 Widget callButton = Container(
-margin: const EdgeInsets.all(10.0),
-
+    margin: const EdgeInsets.all(10.0),
     child: MaterialButton(
-    padding: EdgeInsets.all(20.0),
-    onPressed: callButtonPressed,
-    color: Colors.blue,
-    highlightColor: Colors.blueAccent,
-    textTheme: ButtonTextTheme.primary,
-    elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    child: Center(
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(Icons.call),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            'Call',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-          ),
-        ),
-      ]),
-    ))
-);
+        padding: EdgeInsets.all(20.0),
+        onPressed: callButtonPressed,
+        color: Colors.blue,
+        highlightColor: Colors.blueAccent,
+        textTheme: ButtonTextTheme.primary,
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(Icons.call),
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              child: Text(
+                'Call',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+            ),
+          ]),
+        )));
 
 void callButtonPressed() {
   //make call here
@@ -116,32 +115,28 @@ class GarageDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:[
-          Container(
-            padding: EdgeInsets.only(bottom: 16.0),
-            child: Text(
-              'Garage Description',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                'Garage Description',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-
             ),
-          ),
-
-          Text(
-            'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
-            style: TextStyle(fontSize: 20,),
-          ),
-        ],
-      )
-
-
-    );
+            Text(
+              'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ));
   }
 }
-

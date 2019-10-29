@@ -3,6 +3,8 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../classes/garage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class GarageList extends StatefulWidget {
   @override
@@ -10,21 +12,29 @@ class GarageList extends StatefulWidget {
 }
 
 class _GarageListState extends State<GarageList> {
-  List<Garage> garages = [
-    Garage("garagetown", "£££", "10miles"),
-    Garage("mechanic man", "£", "12miles"),
-    Garage("bob bobsworth", "££", "15miles"),
-    Garage("the spannerworks", "£££", "22miles"),
-    Garage("johnny motors", "££", "30miles")
-  ];
+  List<Garage> garages = new List<Garage>();
+
+  Future<Null> gotGarages() async {
+    var something = await getGarages();
+    setState(() {
+      garages = something;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    gotGarages();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-          itemCount: garages.length,
-          itemBuilder: (BuildContext context, int index) =>
-              garageListCard(context, index)),
+            child: ListView.builder(
+                itemCount: garages.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    garageListCard(context, index)),
     );
   }
 
@@ -33,24 +43,23 @@ class _GarageListState extends State<GarageList> {
       child: Card(
         child: new InkWell(
           onTap: () {
-            Navigator.push(context, new MaterialPageRoute(
-              builder: (context) => GarageProfile()
-            ));
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => GarageProfile()));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: <Widget>[
                 Text(
-                  garages[index].name,
+                  garages[index].garageName,
                   style: new TextStyle(fontSize: 20.0),
                 ),
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: Text(garages[index].price),
+                  child: Text(garages[index].basePrice.toString()),
                 ),
-                Text(garages[index].distance),
+                Text(garages[index].distance["distance"]),
               ],
             ),
           ),
@@ -58,4 +67,18 @@ class _GarageListState extends State<GarageList> {
       ),
     );
   }
+}
+
+Future<List<Garage>> getGarages() async {
+  http.Response response = await http.get(
+      'https://stuck.azurewebsites.net/api/location/distance?latitude=53&longitude=-2&increment=10');
+  dynamic data = json.decode(response.body);
+
+  List<Garage> garageList = new List<Garage>();
+  for (var garage in data) {
+    Garage aGarage = Garage.fromJson(garage);
+    garageList.add(aGarage);
+    print(garageList);
+  }
+  return garageList;
 }
