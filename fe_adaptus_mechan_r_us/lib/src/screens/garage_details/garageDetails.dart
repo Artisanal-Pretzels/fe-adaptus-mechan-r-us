@@ -40,6 +40,8 @@ class _GarageDetailsState extends State<GarageDetails> {
   void initState() {
     // TODO: implement initState
     fetchedSingleGarage();
+    var signalInst = Signaling("192.168.230.119", "username", "90");
+    signalInst.connect();
     super.initState();
   }
 
@@ -119,7 +121,6 @@ Widget callButton = Container(
         )));
 
 void callButtonPressed() {
-  //make call here
   return print("call");
 }
 
