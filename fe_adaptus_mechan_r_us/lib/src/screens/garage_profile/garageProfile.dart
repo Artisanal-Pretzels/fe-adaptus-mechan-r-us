@@ -106,8 +106,8 @@ class GarageProfile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  TopImage(),
-                  TitleInfo(),
+//                  TopImage(),
+//                  TitleInfo(),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  _buildFullName(),
                   _buildStatContainer(),

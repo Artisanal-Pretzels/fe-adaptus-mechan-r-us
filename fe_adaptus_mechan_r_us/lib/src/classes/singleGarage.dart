@@ -9,8 +9,16 @@ class SingleGarage {
   dynamic invoices;
   dynamic reviews;
 
-
-  SingleGarage(this.garageID, this.garageName, this.description, this.imagePath, this.basePrice, this.phoneNumber, this.address, this.invoices, this.reviews);
+  SingleGarage(
+      this.garageID,
+      this.garageName,
+      this.description,
+      this.imagePath,
+      this.basePrice,
+      this.phoneNumber,
+      this.address,
+      this.invoices,
+      this.reviews);
 
   factory SingleGarage.fromJson(Map<String, dynamic> json) {
     return SingleGarage(
@@ -22,7 +30,6 @@ class SingleGarage {
         json['phoneNumber'],
         json['address'],
         json['invoices'],
-        json['reviews']
-    );
+        json['reviews']);
   }
 }
