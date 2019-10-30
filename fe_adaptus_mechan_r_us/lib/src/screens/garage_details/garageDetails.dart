@@ -1,5 +1,9 @@
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 //class  extends StatelessWidget {
 //  @override
@@ -14,14 +18,33 @@ import 'package:flutter/material.dart';
 //}
 
 class GarageDetails extends StatefulWidget {
-  final Garage garageDistance;
-  GarageDetails(this.garageDistance);
+  final Garage selectedGarage;
+  GarageDetails(this.selectedGarage);
+
+
 
   @override
   _GarageDetailsState createState() => _GarageDetailsState();
 }
 
 class _GarageDetailsState extends State<GarageDetails> {
+  SingleGarage newGarage;
+
+  Future<Null> fetchedSingleGarage() async {
+    String selectedGarageId = widget.selectedGarage.garageID.toString();
+    var asyncResult = await getSingleGarage(selectedGarageId);
+    setState(() {
+      newGarage = asyncResult;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchedSingleGarage();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +82,8 @@ class _GarageOverviewState extends State<GarageOverview> {
           GarageDescription(),
         ]);
   }
+
+
 }
 
 
@@ -113,7 +138,7 @@ class GarageDescription extends StatelessWidget {
               ),
             ),
             Text(
-              'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
+              'adasdadasd',
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -162,17 +187,29 @@ class TitleInfo extends StatelessWidget {
   }
   }
 
-  class TopImage extends StatelessWidget {
-    @override
-    Widget build(BuildContext context) {
-      return Container(
-        child: Image.network(
-          'http://urbanclassicsautorepair.com/wp-content/uploads/2012/11/DB10800_3.jpg',
-          width: 600,
-          height: 240,
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
-        ),
-      );
-    }
+
+class TopImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.network(
+        'http://urbanclassicsautorepair.com/wp-content/uploads/2012/11/DB10800_3.jpg',
+        width: 600,
+        height: 240,
+        fit: BoxFit.cover,
+        alignment: Alignment.topCenter,
+      ),
+    );
   }
+}
+
+Future<SingleGarage> getSingleGarage(garageId) async {
+  http.Response response = await http.get(
+      'https://stuck.azurewebsites.net/api/garage/$garageId');
+  dynamic data = json.decode(response.body);
+
+  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
+
+  return fetchedGarage;
+
+}
