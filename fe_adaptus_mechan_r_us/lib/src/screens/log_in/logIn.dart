@@ -1,7 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fe_adaptus_mechan_r_us/main.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 
 class UserAuthenticate extends StatefulWidget {
+
+  final changeUser;
+
+  UserAuthenticate(this.changeUser);
+
   @override
   _UserAuthenticateState createState() => _UserAuthenticateState();
 }
@@ -12,7 +23,7 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
   String _email;
   String _password;
 
-  void _submitCommand(){
+  void _submitCommand() {
     final form =formKey.currentState;
 
     if(form.validate()){
@@ -20,12 +31,20 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
       _loginCommand();
     }
   }
-  void _loginCommand(){
-    final snackbar = SnackBar(
-      content: Text('Email: $_email, password: $_password'),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
+  void _loginCommand() async {
+    var user = await getUser(_email, _password);
+
+    if (user == null) {
+      final snackbar = SnackBar(
+        content: Text('Incorrect Details'),
+      );
+      scaffoldKey.currentState.showSnackBar(snackbar);
+    } else {
+      widget.changeUser(user);
+    }
+
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -78,17 +97,17 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                             ),
                             Container(
                               height: 40.0,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(20.0),
-                                shadowColor: Colors.redAccent,
-                                color: Colors.cyan,
-                                elevation: 10.0,
-                                child:GestureDetector(
-                                  onTap: _submitCommand,
-                                  child: Center(
-                                    child: Text('Login'),
+                              child:GestureDetector(
+                                onTap: _submitCommand,
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  shadowColor: Colors.redAccent,
+                                  color: Colors.cyan,
+                                  elevation: 10.0,
+                                    child: Center(
+                                      child: Text('Login'),
+                                    ),
                                   ),
-                                ),
                               ),
                             ),
                             SizedBox(height: 20.0),

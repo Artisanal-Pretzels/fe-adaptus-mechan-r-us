@@ -7,7 +7,7 @@ class SingleGarage {
   String phoneNumber;
   dynamic address;
   dynamic invoices;
-  dynamic reviews;
+  List reviews;
 
   SingleGarage(
       this.garageID,

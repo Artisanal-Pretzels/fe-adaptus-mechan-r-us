@@ -8,18 +8,20 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
   final String _views = '24';
-//  final Garage selectedGarage;
+  final int _garageID;
 
-  Garage selectedGarage = new Garage.fromJson({
-  "garageID": 4,
-  "garageName": "Duffy Motors",
-  "ratings": 3.5,
-  "basePrice": 68,
-  "distance": {
-  "duration": "1 hour 17 mins",
-  "durationTraffic": "1 hour 21 mins",
-  "distance": "92.9 km"
-  }});
+  GarageProfile(this._garageID);
+
+//  Garage selectedGarage = new Garage.fromJson({
+//  "garageID": 4,
+//  "garageName": "Duffy Motors",
+//  "ratings": 3.5,
+//  "basePrice": 68,
+//  "distance": {
+//  "duration": "1 hour 17 mins",
+//  "durationTraffic": "1 hour 21 mins",
+//  "distance": "92.9 km"
+//  }});
 
 //  GarageProfile(this.selectedGarage);
 
@@ -31,8 +33,8 @@ class _GarageProfileState extends State<GarageProfile> {
 
   SingleGarage newGarage;
 
-  Future<Null> fetchedSingleGarage() async {
-    String selectedGarageId = '4';
+  Future<Null> fetchedSingleGarage(garageID) async {
+    String selectedGarageId = garageID.toString();
 //    String selectedGarageId = widget.selectedGarage.garageID.toString();
     var asyncResult = await getSingleGarage(selectedGarageId);
     setState(() {
@@ -43,7 +45,7 @@ class _GarageProfileState extends State<GarageProfile> {
   @override
   void initState() {
     // TODO: implement initState
-    fetchedSingleGarage();
+    fetchedSingleGarage(widget._garageID);
     super.initState();
   }
 
@@ -63,8 +65,8 @@ class _GarageProfileState extends State<GarageProfile> {
               TopImage(newGarage.imagePath),
               TitleInfo(
                   newGarage.garageName,
-                  widget.selectedGarage.distance['distance'],
-                  widget.selectedGarage.ratings,
+                  'placeholder',
+                  newGarage.reviews.last['rating'].toDouble(),
                   newGarage.basePrice
               ),
 //                  SizedBox(height: screenSize.height / 6.4),
