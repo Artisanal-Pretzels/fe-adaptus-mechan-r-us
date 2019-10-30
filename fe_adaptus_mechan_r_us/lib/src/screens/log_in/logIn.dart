@@ -33,11 +33,17 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
     }
   }
   void _loginCommand() async {
-    await getUser(_email, _password);
-//    final snackbar = SnackBar(
-//      content: Text('Email: $_email, password: $_password'),
-//    );
-//    scaffoldKey.currentState.showSnackBar(snackbar);
+    var user = await getUser(_email, _password);
+
+    if (user == null) {
+      final snackbar = SnackBar(
+        content: Text('Incorrect Details'),
+      );
+      scaffoldKey.currentState.showSnackBar(snackbar);
+    } else {
+      widget.changeUser(user);
+    }
+
   }
 
   @override
@@ -157,8 +163,14 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
 
 Future<User> getUser(email, password) async {
   Map payload = {'username': email, 'password': password};
-  http.Response response = await http.post('https://stuck.azurewebsites.net/api/login', body: payload);
-  dynamic data = json.decode(response.body);
-  User newUser = User.fromJson(data);
+  print(payload);
+  http.Response response = await http.post('https://stuck.azurewebsites.net/api/login', headers: {'Content-Type': 'application/json'}, body: '{"username": "$email", "password": "$password"}');
+  User newUser;
+  dynamic data;
+  if(response.statusCode == 200) {
+    data = json.decode(response.body);
+    newUser = User.fromJson(data);
+    print(newUser.email);
+  }
   return newUser;
 }
