@@ -97,17 +97,17 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                             ),
                             Container(
                               height: 40.0,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(20.0),
-                                shadowColor: Colors.redAccent,
-                                color: Colors.cyan,
-                                elevation: 10.0,
-                                child:GestureDetector(
-                                  onTap: _submitCommand,
-                                  child: Center(
-                                    child: Text('Login'),
+                              child:GestureDetector(
+                                onTap: _submitCommand,
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  shadowColor: Colors.redAccent,
+                                  color: Colors.cyan,
+                                  elevation: 10.0,
+                                    child: Center(
+                                      child: Text('Login'),
+                                    ),
                                   ),
-                                ),
                               ),
                             ),
                             SizedBox(height: 20.0),
