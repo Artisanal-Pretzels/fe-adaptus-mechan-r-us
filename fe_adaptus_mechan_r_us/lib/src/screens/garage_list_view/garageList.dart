@@ -1,5 +1,5 @@
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garage_list_view.dart';
-import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
@@ -47,7 +47,7 @@ class _GarageListState extends State<GarageList> {
                 new MaterialPageRoute(builder: (context)
                 {
                   Garage selectedGarage = garages[index];
-                  return GarageProfile(selectedGarage);
+                  return GarageDetails(selectedGarage);
                 }
                 )
             );

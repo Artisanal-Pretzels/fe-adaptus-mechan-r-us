@@ -1,5 +1,6 @@
 
-import 'package:fe_adaptus_mechan_r_us/src/screens/authentication/user-authentication.dart';
+//import 'package:fe_adaptus_mechan_r_us/src/screens/authentication/user-authentication.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garage_list_view.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/home/userHome.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garageList.dart';
@@ -17,7 +18,7 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return UserHome();
+    return GarageProfile();
   }
 }
 

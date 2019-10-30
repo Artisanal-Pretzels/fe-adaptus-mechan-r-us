@@ -1,164 +1,127 @@
-import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+//import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
 import 'package:flutter/material.dart';
+//import '../widgets/invoice.dart'
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
 
-//class  extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//        appBar: AppBar(
-//          title: Text('Garage Details'),
-//          centerTitle: true,
-//        ),
-//        body: GarageOverview());
-//  }
-//}
+class GarageProfile extends StatelessWidget {
+  final String _garageName = 'garage name here';
+  final dynamic _calls = '173';
+  final dynamic _views = '24';
 
-class GarageProfile extends StatefulWidget {
-  final Garage garageDistance;
-  GarageProfile(this.garageDistance);
+  Widget _buildFullName() {
+    TextStyle _nameTextStyle = TextStyle(
+      fontFamily: 'Impact',
+      color: Colors.black,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+    );
 
-  @override
-  _GarageProfileState createState() => _GarageProfileState();
-}
-
-class _GarageProfileState extends State<GarageProfile> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Garage Details'),
-          centerTitle: true,
-        ),
-        body: GarageOverview());
+    return Text(
+      _garageName,
+      style: _nameTextStyle,
+    );
   }
-}
 
+  Widget _buildStatItem(String label, String count) {
+    TextStyle _statLabelTextStyle = TextStyle(
+      fontFamily: 'Roboto',
+      color: Colors.black,
+      fontSize: 16.0,
+    );
 
-class GarageOverview extends StatefulWidget {
-  @override
-  _GarageOverviewState createState() => _GarageOverviewState();
-}
+    TextStyle _statCountTextStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 24.0,
+      fontWeight: FontWeight.bold,
+    );
 
-class _GarageOverviewState extends State<GarageOverview> {
-  var testGarage = new Garage(1, "saphire garage", 5, 90, {
-    'duration': '1 hour 20',
-    "durationTraffic": "1 hour 26 mins",
-    "distance": "110 km"
-  });
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          topImage,
-          titleInfo,
-          callButton,
-          GarageDescription(),
-        ]);
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          count,
+          style: _statCountTextStyle,
+        ),
+        Text(
+          label,
+          style: _statLabelTextStyle,
+        ),
+      ],
+    );
   }
 
-  Widget titleInfo = Container(
-      padding: const EdgeInsets.all(32),
+  Widget _buildStatContainer() {
+    return Container(
+      height: 60.0,
+      margin: EdgeInsets.only(top: 8.0),
+      decoration: BoxDecoration(
+        color: Color(0xFFEFF4F7),
+      ),
       child: Row(
-        children: [
-          Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                padding: EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                  'Garage name',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                'Distance',
-                style: TextStyle(
-                  color: Colors.black87,
-                ),
-              ),
-            ]),
-          ),
-          Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text('Rating'),
-            ),
-            Text('Price'),
-          ])
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          _buildStatItem("Calls", _calls),
+          _buildStatItem("Views", _views),
         ],
-      ));
-}
+      ),
+    );
+  }
 
-Widget topImage = Container(
-  child: Image.network(
-    'http://urbanclassicsautorepair.com/wp-content/uploads/2012/11/DB10800_3.jpg',
-    width: 600,
-    height: 240,
-    fit: BoxFit.cover,
-    alignment: Alignment.topCenter,
-  ),
-);
+  Widget _buildSeparator(Size screenSize) {
+    return Container(
+      width: screenSize.width / 1.6,
+      height: 2.0,
+      color: Colors.black54,
+      margin: EdgeInsets.only(top: 4.0),
+    );
+  }
 
-Widget callButton = Container(
-    margin: const EdgeInsets.all(10.0),
-    child: MaterialButton(
-        padding: EdgeInsets.all(20.0),
-        onPressed: callButtonPressed,
-        color: Colors.blue,
-        highlightColor: Colors.blueAccent,
-        textTheme: ButtonTextTheme.primary,
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Center(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(Icons.call),
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              child: Text(
-                'Call',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-              ),
-            ),
-          ]),
-        )));
+  Widget _buildGetInTouch(BuildContext context) {
+    return Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+    padding: EdgeInsets.only(top: 8.0),
+    child: RaisedButton(
 
-void callButtonPressed() {
-  //make call here
-  return print("call");
-}
+    onPressed: () {Navigator.pushNamed(context, '/invoice');
+    },
+    child: const Text(
+    'Invoicing',
+    style: TextStyle(fontSize: 20)
+    ),
+    )
+    );
+  }
 
-class GarageDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                'Garage Description',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+    Size screenSize = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Garage Profile'),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: <Widget>[
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  TopImage(),
+                  TitleInfo(),
+//                  SizedBox(height: screenSize.height / 6.4),
+//                  _buildFullName(),
+                  _buildStatContainer(),
+                  _buildSeparator(screenSize),
+                  SizedBox(height: 10.0),
+                  _buildGetInTouch(context),
+                  SizedBox(height: 8.0),
+                ],
               ),
             ),
-            Text(
-              'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
+
 }
