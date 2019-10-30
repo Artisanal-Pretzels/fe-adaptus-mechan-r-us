@@ -1,4 +1,4 @@
-import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/settings/settings.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garageList.dart';
 import 'package:flutter/material.dart';
