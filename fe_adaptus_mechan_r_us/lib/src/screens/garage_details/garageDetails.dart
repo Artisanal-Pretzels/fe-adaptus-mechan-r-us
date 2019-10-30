@@ -54,9 +54,9 @@ class _GarageDetailsState extends State<GarageDetails> {
           body: GarageOverview(newGarage, widget.selectedGarage));
     } else {
       return new Center(
-        child: new CircularProgressIndicator(),
-      );
-    }
+      child: new CircularProgressIndicator(),
+    );
+  }
   }
 }
 
