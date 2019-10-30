@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:core';
-import 'signaling.dart';
+import 'Signaling.dart';
 import 'package:flutter_webrtc/webrtc.dart';
-​
-class Calling extends StatefulWidget {
+
+class CallSample extends StatefulWidget {
   static String tag = 'call_sample';
-  ​
+
   final String ip;
-  ​
-  Calling({Key key, @required this.ip}) : super(key: key);
-  ​
+  final String id;
+
+  CallSample({Key key, @required this.ip, this.id}) : super(key: key);
+
   @override
-  _CallingState createState() => new _CallingState(serverIP: ip);
+  _CallSampleState createState() => new _CallSampleState(serverIP: ip);
 }
-​
-class _CallingState extends State<Calling> {
+
+class _CallSampleState extends State<CallSample> {
   Signaling _signaling;
   String _displayName =
       Platform.localHostname + '(' + Platform.operatingSystem + ")";
@@ -25,21 +26,22 @@ class _CallingState extends State<Calling> {
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   bool _inCalling = false;
   final String serverIP;
-  ​
-  _CallingState({Key key, @required this.serverIP});
-  ​
+
+  _CallSampleState({Key key, @required this.serverIP});
+
   @override
   initState() {
     super.initState();
     initRenderers();
     _connect();
+//    _invitePeer(context, "10", false);
   }
-  ​
+
   initRenderers() async {
     await _localRenderer.initialize();
     await _remoteRenderer.initialize();
   }
-  ​
+
   @override
   deactivate() {
     super.deactivate();
@@ -47,119 +49,125 @@ class _CallingState extends State<Calling> {
     _localRenderer.dispose();
     _remoteRenderer.dispose();
   }
-  ​
+
   void _connect() async {
     if (_signaling == null) {
-      _signaling = new Signaling(serverIP, _displayName, "150")
+      _signaling = new Signaling(serverIP, _displayName, "5")
         ..connect();
-    ​
-    _signaling.onStateChange = (SignalingState state) {
-    switch (state) {
-    case SignalingState.CallStateNew:
-    this.setState(() {
-    _inCalling = true;
-    });
-    break;
-    case SignalingState.CallStateBye:
-    this.setState(() {
-    _localRenderer.srcObject = null;
-    _remoteRenderer.srcObject = null;
-    _inCalling = false;
-    });
-    break;
-    case SignalingState.CallStateInvite:
-    case SignalingState.CallStateConnected:
-    case SignalingState.CallStateRinging:
-    case SignalingState.ConnectionClosed:
-    case SignalingState.ConnectionError:
-    case SignalingState.ConnectionOpen:
-    break;
+
+      _signaling.onStateChange = (SignalingState state) {
+        switch (state) {
+          case SignalingState.CallStateNew:
+            this.setState(() {
+              _inCalling = true;
+            });
+            break;
+          case SignalingState.CallStateBye:
+            this.setState(() {
+              _localRenderer.srcObject = null;
+              _remoteRenderer.srcObject = null;
+              _inCalling = false;
+            });
+            break;
+          case SignalingState.CallStateInvite:
+          case SignalingState.CallStateConnected:
+          case SignalingState.CallStateRinging:
+          case SignalingState.ConnectionClosed:
+          case SignalingState.ConnectionError:
+          case SignalingState.ConnectionOpen:
+            break;
+        }
+      };
+
+      _signaling.onPeersUpdate = ((event) {
+        this.setState(() {
+          _selfId = event['self'];
+          _peers = event['peers'];
+        });
+      });
+
+      _signaling.onLocalStream = ((stream) {
+        _localRenderer.srcObject = stream;
+      });
+
+      _signaling.onAddRemoteStream = ((stream) {
+        _remoteRenderer.srcObject = stream;
+      });
+
+      _signaling.onRemoveRemoteStream = ((stream) {
+        _remoteRenderer.srcObject = null;
+      });
     }
-    };
-    ​
-    _signaling.onPeersUpdate = ((event) {
-    this.setState(() {
-    _selfId = event['self'];
-    _peers = event['peers'];
-    });
-    });
-    ​
-    _signaling.onLocalStream = ((stream) {
-    _localRenderer.srcObject = stream;
-    });
-    ​
-    _signaling.onAddRemoteStream = ((stream) {
-    _remoteRenderer.srcObject = stream;
-    });
-    ​
-    _signaling.onRemoveRemoteStream = ((stream) {
-    _remoteRenderer.srcObject = null;
-    });
   }
-  }
-  ​
+
   _invitePeer(context, peerId, use_screen) async {
     if (_signaling != null && peerId != _selfId) {
       _signaling.invite(peerId, 'video', use_screen);
     }
   }
-  ​
+
   _hangUp() {
     if (_signaling != null) {
       _signaling.bye();
     }
   }
-  ​
+
   _switchCamera() {
     _signaling.switchCamera();
   }
-  ​
+
   _muteMic() {
-    ​
+
   }
-  ​
+
   _buildRow(context, peer) {
-    var self = (peer['id'] == _selfId);
-    return ListBody(children: <Widget>[
-      ListTile(
-        title: Text(self
-            ? peer['name'] + '[Your self]'
-            : peer['name'] + '[' + peer['user_agent'] + ']'),
-        onTap: null,
-        trailing: new SizedBox(
-            width: 100.0,
-            child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.videocam),
-                    onPressed: () => _invitePeer(context, peer['id'], false),
-                    tooltip: 'Video calling',
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.screen_share),
-                    onPressed: () => _invitePeer(context, peer['id'], true),
-                    tooltip: 'Screen sharing',
-                  )
-                ])),
-        subtitle: Text('id: ' + peer['id']),
-      ),
-      Divider()
-    ]);
+//    var self = (peer['id'] == _selfId);
+//    setState(() {
+//      _inCalling = true;
+//    });
+//
+//    this.setState(() {
+//      _inCalling = true;
+//
+//    });
+//    _invitePeer(context,"10", false);
+  _signaling.invite("10", "video", false);
+
+//    return ListBody(children: <Widget>[
+//      ListTile(
+//        title: Text(self
+//            ? peer['name'] + '[Your self]'
+//            : peer['name'] + '[' + peer['user_agent'] + ']'),
+//        onTap: null,
+//        trailing: new SizedBox(
+//            width: 100.0,
+//            child: new Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                children: <Widget>[
+//                  IconButton(
+//                    icon: const Icon(Icons.videocam),
+//                    onPressed: () => _invitePeer(context, peer['id'], false),
+//                    tooltip: 'Video calling',
+//                  )
+//                ])),
+//        subtitle: Text('id: ' + peer['id']),
+//      ),
+//      Divider()
+//    ]);
   }
-  ​
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('P2P Call Sample'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: null,
-            tooltip: 'setup',
-          ),
-        ],
+        title: new Text('Garage'),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: const Icon(Icons.settings),
+//            onPressed: null,
+//            tooltip: 'setup',
+//          ),
+//        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _inCalling
@@ -213,13 +221,15 @@ class _CallingState extends State<Calling> {
           ]),
         );
       })
-          : new ListView.builder(
+          :  new ListView.builder(
           shrinkWrap: true,
           padding: const EdgeInsets.all(0.0),
           itemCount: (_peers != null ? _peers.length : 0),
           itemBuilder: (context, i) {
             return _buildRow(context, _peers[i]);
           }),
+
+
     );
   }
 }
