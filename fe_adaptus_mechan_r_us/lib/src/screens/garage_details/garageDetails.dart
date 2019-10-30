@@ -1,9 +1,8 @@
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
+import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 
 //class  extends StatelessWidget {
 //  @override
@@ -85,7 +84,11 @@ class _GarageOverviewState extends State<GarageOverview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TopImage(widget.newGarage.imagePath),
-          TitleInfo(widget.newGarage.garageName, widget.selectedGarage.distance['distance'], widget.selectedGarage.ratings, widget.newGarage.basePrice),
+          TitleInfo(
+              widget.newGarage.garageName,
+              widget.selectedGarage.distance['distance'],
+              widget.selectedGarage.ratings,
+              widget.newGarage.basePrice),
           callButton,
           GarageDescription(widget.newGarage.description),
         ]);
@@ -122,6 +125,7 @@ void callButtonPressed() {
 
 class GarageDescription extends StatelessWidget {
   String description;
+
   GarageDescription(this.description);
 
   @override
@@ -143,7 +147,7 @@ class GarageDescription extends StatelessWidget {
               ),
             ),
             Text(
-            description,
+              description,
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -159,7 +163,8 @@ class TitleInfo extends StatelessWidget {
   final double garageRating;
   final double garagePrice;
 
-  TitleInfo(this.garageName, this.garageDistance, this.garageRating, this.garagePrice);
+  TitleInfo(this.garageName, this.garageDistance, this.garageRating,
+      this.garagePrice);
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +181,7 @@ class TitleInfo extends StatelessWidget {
                       child: Text(
                         garageName,
                         style: TextStyle(
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -183,6 +189,7 @@ class TitleInfo extends StatelessWidget {
                     Text(
                       garageDistance,
                       style: TextStyle(
+                        fontSize: 16,
                         color: Colors.black87,
                       ),
                     ),
@@ -191,9 +198,11 @@ class TitleInfo extends StatelessWidget {
             Column(children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Rating: ${garageRating.toString()}'),
+                child: Text('Rating: ${garageRating.toString()}',
+                    style: TextStyle(fontSize: 16)),
               ),
-              Text('£${garagePrice.toString()}'),
+              Text('£${garagePrice.toString()}',
+                  style: TextStyle(fontSize: 16)),
             ])
           ],
         ));
@@ -207,22 +216,24 @@ class TopImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Image.network(
-        imageURL,
-        fit: BoxFit.cover,
-        alignment: Alignment.topCenter,
+    return Center(
+      child: Container(
+        child: Image.network(
+          imageURL,
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
+        ),
       ),
     );
   }
 }
 
-Future<SingleGarage> getSingleGarage(garageId) async {
-  http.Response response =
-      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
-  dynamic data = json.decode(response.body);
-
-  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
-
-  return fetchedGarage;
-}
+//Future<SingleGarage> getSingleGarage(garageId) async {
+//  http.Response response =
+//      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
+//  dynamic data = json.decode(response.body);
+//
+//  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
+//
+//  return fetchedGarage;
+//}
