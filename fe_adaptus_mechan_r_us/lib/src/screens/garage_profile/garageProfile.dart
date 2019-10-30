@@ -76,6 +76,7 @@ class _GarageProfileState extends State<GarageProfile> {
               SizedBox(height: 10.0),
               InvoicingButton(),
               SizedBox(height: 8.0),
+              InvoiceList(newGarage.invoices),
             ],
           ),
         ),
@@ -199,4 +200,52 @@ Widget _buildSeparator(Size screenSize) {
     color: Colors.black54,
     margin: EdgeInsets.only(top: 4.0),
   );
+}
+
+
+class InvoiceList extends StatefulWidget {
+  final List invoices;
+  InvoiceList(this.invoices);
+
+  @override
+  _InvoiceListState createState() => _InvoiceListState();
+}
+
+class _InvoiceListState extends State<InvoiceList> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView.builder(
+          itemCount: widget.invoices.length,
+          itemBuilder: (BuildContext context, int index) =>
+              invoiceListCard(context, index)),
+    );
+  }
+
+
+  Widget invoiceListCard(BuildContext context, int index) {
+    return new Container(
+      child: Card(
+        child: new InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  widget.invoices[index].username,
+                  style: new TextStyle(fontSize: 20.0),
+                ),
+                Spacer(),
+
+                Text('Base price: ${widget.invoices[index].basePrice.toString()}'),
+                Text('Labour: ${widget.invoices[index].labour.toString()}'),
+                Text('Parts: ${widget.invoices[index].parts.toString()}'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
