@@ -1,7 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fe_adaptus_mechan_r_us/main.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class UserAuthenticate extends StatefulWidget {
+
+  final changeUser;
+
+  UserAuthenticate(this.changeUser);
+
   @override
   _UserAuthenticateState createState() => _UserAuthenticateState();
 }
@@ -12,20 +22,24 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
   String _email;
   String _password;
 
-  void _submitCommand(){
+  void _submitCommand() {
     final form =formKey.currentState;
+
+    print('hello');
 
     if(form.validate()){
       form.save();
       _loginCommand();
     }
   }
-  void _loginCommand(){
-    final snackbar = SnackBar(
-      content: Text('Email: $_email, password: $_password'),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
+  void _loginCommand() async {
+    await getUser(_email, _password);
+//    final snackbar = SnackBar(
+//      content: Text('Email: $_email, password: $_password'),
+//    );
+//    scaffoldKey.currentState.showSnackBar(snackbar);
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -139,4 +153,12 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
           // login and registration widgets will go here
     );
   }
+}
+
+Future<User> getUser(email, password) async {
+  Map payload = {'username': email, 'password': password};
+  http.Response response = await http.post('https://stuck.azurewebsites.net/api/login', body: payload);
+  dynamic data = json.decode(response.body);
+  User newUser = User.fromJson(data);
+  return newUser;
 }
