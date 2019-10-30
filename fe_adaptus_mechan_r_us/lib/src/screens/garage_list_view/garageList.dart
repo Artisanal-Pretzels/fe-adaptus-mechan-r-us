@@ -2,7 +2,7 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garage_list_
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -44,7 +44,13 @@ class _GarageListState extends State<GarageList> {
         child: new InkWell(
           onTap: () {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => GarageProfile()));
+                new MaterialPageRoute(builder: (context)
+                {
+                  Garage selectedGarage = garages[index];
+                  return GarageProfile(selectedGarage);
+                }
+                )
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -78,7 +84,6 @@ Future<List<Garage>> getGarages() async {
   for (var garage in data) {
     Garage aGarage = Garage.fromJson(garage);
     garageList.add(aGarage);
-    print(garageList);
   }
   return garageList;
 }
