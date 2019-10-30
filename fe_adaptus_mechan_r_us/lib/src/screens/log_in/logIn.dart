@@ -7,9 +7,29 @@ class UserAuthenticate extends StatefulWidget {
 }
 
 class _UserAuthenticateState extends State<UserAuthenticate> {
+  final formKey= GlobalKey<FormState>();
+  final scaffoldKey =GlobalKey<ScaffoldState>();
+  String _email;
+  String _password;
+
+  void _submitCommand(){
+    final form =formKey.currentState;
+
+    if(form.validate()){
+      form.save();
+      _loginCommand();
+    }
+  }
+  void _loginCommand(){
+    final snackbar = SnackBar(
+      content: Text('Email: $_email, password: $_password'),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
           body: new Stack(
@@ -19,10 +39,11 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                 children: <Widget>[
                   Icon(
                     Icons.directions_car,
-                    color: Colors.redAccent,
+                    color: Colors.purple,
                     size: 200.0,
                   ),
                   new Form(
+                    key:formKey,
                     child:new Theme(
                       data: new ThemeData(
                         brightness: Brightness.light,primarySwatch: Colors.cyan,
@@ -41,12 +62,16 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                                 labelText: "Enter Email",
                               ),
                               keyboardType: TextInputType.emailAddress,
+                              validator: (val) => val.length <1 ? 'please provide valid email':null,
+                              onSaved: (val)=> _email=val,
                             ),
                             new TextFormField(
                               decoration: new InputDecoration(
                                 labelText: "Enter Password",
                               ),
                               keyboardType: TextInputType.text,
+                              validator: (val) => val.length<4 ? 'password too shot':null,
+                              onSaved: (val) => _password=val,
                               obscureText: true,
                             ),
                             new Padding(padding: const EdgeInsets.only(top:20.0),
@@ -59,7 +84,7 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                                 color: Colors.cyan,
                                 elevation: 10.0,
                                 child:GestureDetector(
-                                  onTap: (){},
+                                  onTap: _submitCommand,
                                   child: Center(
                                     child: Text('Login'),
                                   ),

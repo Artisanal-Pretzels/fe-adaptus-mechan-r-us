@@ -1,5 +1,8 @@
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 
 //class  extends StatelessWidget {
 //  @override
@@ -14,28 +17,55 @@ import 'package:flutter/material.dart';
 //}
 
 class GarageDetails extends StatefulWidget {
-  final Garage garageDistance;
-  GarageDetails(this.garageDistance);
+  final Garage selectedGarage;
+
+  GarageDetails(this.selectedGarage);
 
   @override
   _GarageDetailsState createState() => _GarageDetailsState();
 }
 
 class _GarageDetailsState extends State<GarageDetails> {
+  SingleGarage newGarage;
+
+  Future<Null> fetchedSingleGarage() async {
+    String selectedGarageId = widget.selectedGarage.garageID.toString();
+    var asyncResult = await getSingleGarage(selectedGarageId);
+    setState(() {
+      newGarage = asyncResult;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchedSingleGarage();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Garage Details'),
-          centerTitle: true,
-        ),
-        body: GarageOverview());
+    if (newGarage != null) {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text('Garage Details'),
+            centerTitle: true,
+          ),
+          body: GarageOverview(newGarage, widget.selectedGarage));
+    } else {
+      return new Center(
+      child: new CircularProgressIndicator(),
+    );
+  }
   }
 }
 
-
 class GarageOverview extends StatefulWidget {
+  final dynamic newGarage;
+  final dynamic selectedGarage;
+
+  GarageOverview(this.newGarage, this.selectedGarage);
+
   @override
   _GarageOverviewState createState() => _GarageOverviewState();
 }
@@ -53,17 +83,17 @@ class _GarageOverviewState extends State<GarageOverview> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TopImage(),
-          TitleInfo(),
+          TopImage(widget.newGarage.imagePath),
+          TitleInfo(
+              widget.newGarage.garageName,
+              widget.selectedGarage.distance['distance'],
+              widget.selectedGarage.ratings,
+              widget.newGarage.basePrice),
           callButton,
-          GarageDescription(),
+          GarageDescription(widget.newGarage.description),
         ]);
   }
 }
-
-
-
-
 
 Widget callButton = Container(
     margin: const EdgeInsets.all(10.0),
@@ -94,6 +124,10 @@ void callButtonPressed() {
 }
 
 class GarageDescription extends StatelessWidget {
+  String description;
+
+  GarageDescription(this.description);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,7 +139,7 @@ class GarageDescription extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(bottom: 16.0),
               child: Text(
-                'Garage Description',
+                'Garage Description:',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -113,7 +147,7 @@ class GarageDescription extends StatelessWidget {
               ),
             ),
             Text(
-              'adohafoaisdoanfoasnfafanosfinaosfnaosfnaosfnaodnaosifnaa',
+              description,
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -124,55 +158,82 @@ class GarageDescription extends StatelessWidget {
 }
 
 class TitleInfo extends StatelessWidget {
+  final String garageName;
+  final String garageDistance;
+  final double garageRating;
+  final double garagePrice;
+
+  TitleInfo(this.garageName, this.garageDistance, this.garageRating,
+      this.garagePrice);
+
   @override
   Widget build(BuildContext context) {
-  return Container(
-  padding: const EdgeInsets.all(32),
-  child: Row(
-  children: [
-  Expanded(
-  child:
-  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-  Container(
-  padding: EdgeInsets.only(bottom: 16.0),
-  child: Text(
-  'Garage name',
-  style: TextStyle(
-  fontWeight: FontWeight.bold,
-  ),
-  ),
-  ),
-  Text(
-  'Distance',
-  style: TextStyle(
-  color: Colors.black87,
-  ),
-  ),
-  ]),
-  ),
-  Column(children: [
-  Padding(
-  padding: const EdgeInsets.only(bottom: 16.0),
-  child: Text('Rating'),
-  ),
-  Text('Price'),
-  ])
-  ],
-  ));
+    return Container(
+        padding: const EdgeInsets.all(32),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(bottom: 16.0),
+                      child: Text(
+                        garageName,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      garageDistance,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ]),
+            ),
+            Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('Rating: ${garageRating.toString()}',
+                    style: TextStyle(fontSize: 16)),
+              ),
+              Text('£${garagePrice.toString()}',
+                  style: TextStyle(fontSize: 16)),
+            ])
+          ],
+        ));
   }
-  }
+}
 
-  class TopImage extends StatelessWidget {
-    @override
-    Widget build(BuildContext context) {
-      return Container(
+class TopImage extends StatelessWidget {
+  final String imageURL;
+
+  TopImage(this.imageURL);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
         child: Image.network(
-          'http://urbanclassicsautorepair.com/wp-content/uploads/2012/11/DB10800_3.jpg',
-          width: 600,
-          height: 240,
+          imageURL,
           fit: BoxFit.cover,
           alignment: Alignment.topCenter,
         ),
-      );
-    }
+      ),
+    );
   }
+}
+
+//Future<SingleGarage> getSingleGarage(garageId) async {
+//  http.Response response =
+//      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
+//  dynamic data = json.decode(response.body);
+//
+//  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
+//
+//  return fetchedGarage;
+//}
