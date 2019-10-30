@@ -26,6 +26,8 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
   void _submitCommand() {
     final form =formKey.currentState;
 
+    print('hello');
+
     if(form.validate()){
       form.save();
       _loginCommand();
