@@ -62,19 +62,19 @@ class _GarageProfileState extends State<GarageProfile> {
         ),
         body: SingleChildScrollView(child: Column(
             children: [
-          new Expanded(child: TopImage(newGarage.imagePath)),
-        new Expanded(child: TitleInfo(
+              TopImage(newGarage.imagePath),
+        TitleInfo(
                   newGarage.garageName,
                   'placeholder',
                   newGarage.reviews.last.rating.toDouble(),
                   newGarage.basePrice
-              )),
+              ),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
-        new Expanded(child: _BuildStatContainer(widget._calls, widget._views)),
+     _BuildStatContainer(widget._calls, widget._views),
 //              _buildSeparator(screenSize),
 //              SizedBox(height: 10.0),
-        new Expanded(child: InvoicingButton()),
+        InvoicingButton(),
 //              SizedBox(height: 8.0),
          InvoiceList(newGarage.invoices),
             ],
@@ -106,8 +106,8 @@ class _BuildStatContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-      new Expanded(child: BuildStatItem("Calls", _calls)),
-    new Expanded(child: BuildStatItem("Views", _views)),
+      BuildStatItem("Calls", _calls),
+    BuildStatItem("Views", _views),
         ],
       ),
     );
@@ -119,10 +119,10 @@ class InvoicingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         constraints: BoxConstraints(minWidth: 230.0, minHeight: 15.0),
-    height: 15,
+    height: 30,
     color: Theme.of(context).scaffoldBackgroundColor,
   padding: EdgeInsets.only(top: 8.0),
-  child: new Expanded(child: RaisedButton(
+  child:RaisedButton(
 
   onPressed: () {Navigator.pushNamed(context, '/invoice');
   },
@@ -130,8 +130,7 @@ class InvoicingButton extends StatelessWidget {
   'Invoicing',
   style: TextStyle(fontSize: 20)
   ),
-  ))
-  );
+  ));
   }
   }
 
@@ -176,19 +175,22 @@ class BuildStatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return
+      Container(
+      child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        new Expanded(child: Text(
+        Text(
           count,
           style: _statCountTextStyle,
-        )),
-    new Expanded(child: Text(
+        ),
+    Text(
           label,
           style: _statLabelTextStyle,
-        )),
+        ),
       ],
-    );
+    )
+      );
   }
 }
 
@@ -217,36 +219,35 @@ class _InvoiceListState extends State<InvoiceList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SizedBox(
-        width: 400,
+    return SizedBox(
+        height: 400,
       child: ListView.builder(
         shrinkWrap: true,
           itemCount: widget.invoices.length,
           itemBuilder: (BuildContext context, int index) =>
               invoiceListCard(context, index)),
-      )
     );
   }
 
 
   Widget invoiceListCard(BuildContext context, int index) {
     return new Container(
+      height: 40.0,
       child: Card(
         child: new InkWell(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: <Widget>[
-                new Expanded(child: Text(
+                Text(
                   widget.invoices[index].username,
                   style: new TextStyle(fontSize: 20.0),
-                )),
+                ),
 //                Spacer(),
 
-                new Expanded(child: Text('Base price: ${widget.invoices[index].basePrice.toString()}')),
-                new Expanded(child: Text('Labour: ${widget.invoices[index].labour.toString()}')),
-                new Expanded(child: Text('Parts: ${widget.invoices[index].parts.toString()}')),
+                Text('Base price: ${widget.invoices[index].basePrice.toString()}'),
+                Text('Labour: ${widget.invoices[index].labour.toString()}'),
+                Text('Parts: ${widget.invoices[index].parts.toString()}'),
               ],
             ),
           ),
