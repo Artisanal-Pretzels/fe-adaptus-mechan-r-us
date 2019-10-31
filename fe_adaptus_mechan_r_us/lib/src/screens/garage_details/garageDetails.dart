@@ -93,7 +93,7 @@ class _GarageOverviewState extends State<GarageOverview> {
               widget.selectedGarage.distance['distance'],
               widget.selectedGarage.ratings,
               widget.newGarage.basePrice),
-          CallButton(),
+          CallButton(widget.newGarage.garageID.toString()),
           GarageDescription(widget.newGarage.description),
         ]);
   }
@@ -102,6 +102,12 @@ class _GarageOverviewState extends State<GarageOverview> {
 
 
 class CallButton extends StatelessWidget {
+
+  final String garageId;
+
+  CallButton (this.garageId);
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,7 +117,7 @@ class CallButton extends StatelessWidget {
     padding: EdgeInsets.all(20.0),
     onPressed: () {
     Navigator.push(context, new MaterialPageRoute(
-        builder: (BuildContext context) => new CallSample(ip:"192.168.230.119", id: "10")));
+        builder: (BuildContext context) => new CallSample(ip:"192.168.230.119", userId: "999", GarageToCallId: garageId )));
     },
     color: Colors.blue,
     highlightColor: Colors.blueAccent,
@@ -133,10 +139,6 @@ class CallButton extends StatelessWidget {
   }
 }
 
-void callButtonPressed() {
-
-  return print("call");
-}
 
 class GarageDescription extends StatelessWidget {
   String description;
