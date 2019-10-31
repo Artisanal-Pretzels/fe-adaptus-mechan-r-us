@@ -202,6 +202,7 @@ class TitleInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 120,
         padding: const EdgeInsets.all(32),
         child: Row(
           children: [
@@ -251,6 +252,7 @@ class TopImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        height: 200,
         child: Image.network(
           imageURL,
           fit: BoxFit.cover,
