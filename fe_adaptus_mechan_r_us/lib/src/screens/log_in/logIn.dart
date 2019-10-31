@@ -1,3 +1,4 @@
+import 'package:fe_adaptus_mechan_r_us/src/screens/log_in/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -115,7 +116,7 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                                       Center(
                                         child: GestureDetector(
                                           onTap: (){
-//                                            Navigator.push(context,new MaterialPageRoute(builder: (context) => ));
+                                            Navigator.push(context,new MaterialPageRoute(builder: (context) => Signup()));
                                           },
                                           child: Center(
                                             child: Text('Sign Up'),
