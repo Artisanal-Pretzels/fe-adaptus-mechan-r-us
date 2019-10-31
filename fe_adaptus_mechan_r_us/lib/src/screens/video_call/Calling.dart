@@ -8,12 +8,13 @@ class CallSample extends StatefulWidget {
   static String tag = 'call_sample';
 
   final String ip;
-  final String id;
+  final String userId;
+  final String GarageToCallId;
 
-  CallSample({Key key, @required this.ip, this.id}) : super(key: key);
+  CallSample({Key key, @required this.ip, this.userId, this.GarageToCallId}) : super(key: key);
 
   @override
-  _CallSampleState createState() => new _CallSampleState(serverIP: ip);
+  _CallSampleState createState() => new _CallSampleState(serverIP: ip, userId: userId, GarageToCallId: GarageToCallId);
 }
 
 class _CallSampleState extends State<CallSample> {
@@ -26,15 +27,16 @@ class _CallSampleState extends State<CallSample> {
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   bool _inCalling = false;
   final String serverIP;
+  final String userId;
+  final String GarageToCallId;
 
-  _CallSampleState({Key key, @required this.serverIP});
+  _CallSampleState({Key key, @required this.serverIP, this.userId, this.GarageToCallId});
 
   @override
   initState() {
     super.initState();
     initRenderers();
     _connect();
-//    _invitePeer(context, "10", false);
   }
 
   initRenderers() async {
@@ -51,8 +53,9 @@ class _CallSampleState extends State<CallSample> {
   }
 
   void _connect() async {
+
     if (_signaling == null) {
-      _signaling = new Signaling(serverIP, _displayName, "5")
+      _signaling = new Signaling(serverIP, _displayName, userId)
         ..connect();
 
       _signaling.onStateChange = (SignalingState state) {
@@ -107,9 +110,10 @@ class _CallSampleState extends State<CallSample> {
   }
 
   _hangUp() {
-    if (_signaling != null) {
+//    if (_signaling != null) {
       _signaling.bye();
-    }
+//    }
+
   }
 
   _switchCamera() {
@@ -126,13 +130,20 @@ class _CallSampleState extends State<CallSample> {
 //      _inCalling = true;
 //    });
 //
-//    this.setState(() {
-//      _inCalling = true;
-//
-//    });
-//    _invitePeer(context,"10", false);
-  _signaling.invite("10", "video", false);
 
+//    _invitePeer(context,"10", false);
+
+
+  if (GarageToCallId != "0") {
+    print("<=============== INVITING User: ${userId} ==  GarageToCall: ${GarageToCallId} ==========================>");
+    _signaling.invite(GarageToCallId, "video", false);
+//    _invitePeer(context, GarageToCallId, false);
+  }
+
+//  this.setState(() {
+//    _inCalling = true;
+//
+//  });
 //    return ListBody(children: <Widget>[
 //      ListTile(
 //        title: Text(self
@@ -160,7 +171,8 @@ class _CallSampleState extends State<CallSample> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Garage'),
+        title: new Text('Video Call'),
+        centerTitle: true,
 //        actions: <Widget>[
 //          IconButton(
 //            icon: const Icon(Icons.settings),
@@ -181,15 +193,15 @@ class _CallSampleState extends State<CallSample> {
                   onPressed: _switchCamera,
                 ),
                 FloatingActionButton(
-                  onPressed: _hangUp,
+                  onPressed: () => Navigator.pop(context),
                   tooltip: 'Hangup',
                   child: new Icon(Icons.call_end),
                   backgroundColor: Colors.pink,
                 ),
-                FloatingActionButton(
-                  child: const Icon(Icons.mic_off),
-                  onPressed: _muteMic,
-                )
+//                FloatingActionButton(
+//                  child: const Icon(Icons.mic_off),
+//                  onPressed: _muteMic,
+//                )
               ])) : null,
       body: _inCalling
           ? OrientationBuilder(builder: (context, orientation) {
@@ -221,13 +233,14 @@ class _CallSampleState extends State<CallSample> {
           ]),
         );
       })
-          :  new ListView.builder(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(0.0),
-          itemCount: (_peers != null ? _peers.length : 0),
-          itemBuilder: (context, i) {
-            return _buildRow(context, _peers[i]);
-          }),
+          :  _buildRow("", ""),
+//      new ListView.builder(
+//          shrinkWrap: true,
+//          padding: const EdgeInsets.all(0.0),
+//          itemCount: (_peers != null ? _peers.length : 0),
+//          itemBuilder: (context, i) {
+//            return _buildRow(context, _peers[i]);
+//          }),
 
 
     );

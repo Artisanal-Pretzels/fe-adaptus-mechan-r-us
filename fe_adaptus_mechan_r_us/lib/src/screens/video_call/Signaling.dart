@@ -26,7 +26,7 @@ typedef void DataChannelMessageCallback(
 typedef void DataChannelCallback(RTCDataChannel dc);
 
 class Signaling {
-  String _selfId = "5";
+  String _selfId;
   var _socket;
   var _sessionId;
   var _host;
