@@ -135,10 +135,6 @@ class CallButton extends StatelessWidget {
   }
 }
 
-void callButtonPressed() {
-  return print("call");
-}
-
 class GarageDescription extends StatelessWidget {
   String description;
 
@@ -243,13 +239,3 @@ class TopImage extends StatelessWidget {
     );
   }
 }
-
-//Future<SingleGarage> getSingleGarage(garageId) async {
-//  http.Response response =
-//      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
-//  dynamic data = json.decode(response.body);
-//
-//  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
-//
-//  return fetchedGarage;
-//}
