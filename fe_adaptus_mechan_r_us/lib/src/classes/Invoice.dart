@@ -10,10 +10,10 @@ class Invoice {
     return Invoice(
       json['invoiceID'] as int,
       json['username'],
-      json['basePrice'],
-      json['labour'] as double,
-      json['parts'] as double,
-      json['recoveryFee'] as double
+      json['basePrice'].toDouble(),
+      json['labour'].toDouble(),
+      json['parts'].toDouble(),
+      json['recoveryFee']?.toDouble()
     );
   }
 
