@@ -8,18 +8,6 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/ReviewList.dart';
 import '../video_call/Signaling.dart';
 
-//class  extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//        appBar: AppBar(
-//          title: Text('Garage Details'),
-//          centerTitle: true,
-//        ),
-//        body: GarageOverview());
-//  }
-//}
-
 class GarageDetails extends StatefulWidget {
   final Garage selectedGarage;
 
@@ -262,14 +250,4 @@ class TopImage extends StatelessWidget {
     );
   }
 }
-
-//Future<SingleGarage> getSingleGarage(garageId) async {
-//  http.Response response =
-//      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
-//  dynamic data = json.decode(response.body);
-//
-//  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
-//
-//  return fetchedGarage;
-//}
 
