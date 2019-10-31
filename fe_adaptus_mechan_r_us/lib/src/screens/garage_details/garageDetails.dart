@@ -4,6 +4,7 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/video_call/Calling.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
 
 import '../video_call/Signaling.dart';
 
@@ -30,7 +31,9 @@ class GarageDetails extends StatefulWidget {
 
 class _GarageDetailsState extends State<GarageDetails> {
   SingleGarage newGarage;
+  List<Review> reviewsList;
   var signalInst;
+
 
   Future<Null> fetchedSingleGarage() async {
     String selectedGarageId = widget.selectedGarage.garageID.toString();
@@ -40,10 +43,20 @@ class _GarageDetailsState extends State<GarageDetails> {
     });
   }
 
+  Future<Null> fetchedReviews() async {
+    String selectedGarageId = widget.selectedGarage.garageID.toString();
+    var asyncResult = await getReviews(selectedGarageId);
+    setState(() {
+      reviewsList = asyncResult;
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     fetchedSingleGarage();
+    fetchedReviews();
     super.initState();
   }
 
@@ -55,7 +68,7 @@ class _GarageDetailsState extends State<GarageDetails> {
             title: Text('Garage Details'),
             centerTitle: true,
           ),
-          body: GarageOverview(newGarage, widget.selectedGarage));
+          body: GarageOverview(newGarage, widget.selectedGarage, reviewsList));
     } else {
       return new Center(
       child: new CircularProgressIndicator(),
@@ -67,8 +80,9 @@ class _GarageDetailsState extends State<GarageDetails> {
 class GarageOverview extends StatefulWidget {
   final dynamic newGarage;
   final dynamic selectedGarage;
+  final dynamic reviewsList;
 
-  GarageOverview(this.newGarage, this.selectedGarage);
+  GarageOverview(this.newGarage, this.selectedGarage, this.reviewsList);
 
   @override
   _GarageOverviewState createState() => _GarageOverviewState();
@@ -83,7 +97,7 @@ class _GarageOverviewState extends State<GarageOverview> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,7 +109,9 @@ class _GarageOverviewState extends State<GarageOverview> {
               widget.newGarage.basePrice),
           CallButton(widget.newGarage.garageID.toString()),
           GarageDescription(widget.newGarage.description),
-        ]);
+          ReviewsList(widget.reviewsList)
+        ])
+    );
   }
 }
 
@@ -141,7 +157,7 @@ class CallButton extends StatelessWidget {
 
 
 class GarageDescription extends StatelessWidget {
-  String description;
+  final String description;
 
   GarageDescription(this.description);
 
@@ -254,3 +270,64 @@ class TopImage extends StatelessWidget {
 //
 //  return fetchedGarage;
 //}
+
+class ReviewsList extends StatefulWidget {
+  final List<dynamic> reviews;
+
+  ReviewsList(this.reviews);
+
+  @override
+  _ReviewsListState createState() => _ReviewsListState();
+}
+
+class _ReviewsListState extends State<ReviewsList> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300.0,
+        child: Container(child: ListView.builder(
+          itemCount: widget.reviews.length,
+        itemBuilder: (BuildContext context, int index) => reviewsListCard(context, index)))
+    );}
+
+  Widget  reviewsListCard(BuildContext context, int index) {
+    return new Container (
+      child: Card(
+          child: Column(
+            children: [
+              Text(
+                widget.reviews[index].body,
+                style: new TextStyle(fontSize: 20.0),
+              ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Row (
+
+                        children: [Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Text('Username: ${widget.reviews[index].username}'),
+                      ),
+
+//
+//                        padding: const EdgeInsets.only(left: 16.0, right: 70.0),
+                        Text('Rating: ${widget.reviews[index].rating.toString()}'),
+                        ]
+                      )
+                    )
+                  ]
+                ),
+
+
+            ]
+          )
+
+          ),
+      );
+
+  }
+
+}
+

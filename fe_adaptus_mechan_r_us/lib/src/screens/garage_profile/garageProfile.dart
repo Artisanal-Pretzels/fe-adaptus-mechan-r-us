@@ -4,6 +4,7 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
 
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
@@ -52,33 +53,32 @@ class _GarageProfileState extends State<GarageProfile> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+//    Size screenSize = MediaQuery.of(context).size;
     if (newGarage != null) {
       return Scaffold(
         appBar: AppBar(
           title: Text('Garage Profile'),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: Column(
+        body: SingleChildScrollView(child: Column(
             children: [
-              TopImage(newGarage.imagePath),
-              TitleInfo(
+          new Expanded(child: TopImage(newGarage.imagePath)),
+        new Expanded(child: TitleInfo(
                   newGarage.garageName,
                   'placeholder',
-                  newGarage.reviews.last['rating'].toDouble(),
+                  newGarage.reviews.last.rating.toDouble(),
                   newGarage.basePrice
-              ),
+              )),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
-              _BuildStatContainer(widget._calls, widget._views),
-              _buildSeparator(screenSize),
-              SizedBox(height: 10.0),
-              InvoicingButton(),
-              SizedBox(height: 8.0),
+        new Expanded(child: _BuildStatContainer(widget._calls, widget._views)),
+//              _buildSeparator(screenSize),
+//              SizedBox(height: 10.0),
+        new Expanded(child: InvoicingButton()),
+//              SizedBox(height: 8.0),
+         InvoiceList(newGarage.invoices),
             ],
-          ),
-        ),
+        )),
       );
     } else {
       return new Center(
@@ -97,6 +97,7 @@ class _BuildStatContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(minWidth: 230.0, minHeight: 60.0),
       height: 60.0,
       margin: EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
@@ -105,8 +106,8 @@ class _BuildStatContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          BuildStatItem("Calls", _calls),
-          BuildStatItem("Views", _views),
+      new Expanded(child: BuildStatItem("Calls", _calls)),
+    new Expanded(child: BuildStatItem("Views", _views)),
         ],
       ),
     );
@@ -117,9 +118,11 @@ class InvoicingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        constraints: BoxConstraints(minWidth: 230.0, minHeight: 15.0),
+    height: 15,
     color: Theme.of(context).scaffoldBackgroundColor,
   padding: EdgeInsets.only(top: 8.0),
-  child: RaisedButton(
+  child: new Expanded(child: RaisedButton(
 
   onPressed: () {Navigator.pushNamed(context, '/invoice');
   },
@@ -127,7 +130,7 @@ class InvoicingButton extends StatelessWidget {
   'Invoicing',
   style: TextStyle(fontSize: 20)
   ),
-  )
+  ))
   );
   }
   }
@@ -176,14 +179,14 @@ class BuildStatItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
+        new Expanded(child: Text(
           count,
           style: _statCountTextStyle,
-        ),
-        Text(
+        )),
+    new Expanded(child: Text(
           label,
           style: _statLabelTextStyle,
-        ),
+        )),
       ],
     );
   }
@@ -191,12 +194,64 @@ class BuildStatItem extends StatelessWidget {
 
 
 
+//
+//Widget _buildSeparator(Size screenSize) {
+//  return Container(
+//    width: screenSize.width / 1.6,
+//    height: 2.0,
+//    color: Colors.black54,
+//    margin: EdgeInsets.only(top: 4.0),
+//  );
+//}
 
-Widget _buildSeparator(Size screenSize) {
-  return Container(
-    width: screenSize.width / 1.6,
-    height: 2.0,
-    color: Colors.black54,
-    margin: EdgeInsets.only(top: 4.0),
-  );
+
+class InvoiceList extends StatefulWidget {
+  final List invoices;
+  InvoiceList(this.invoices);
+
+  @override
+  _InvoiceListState createState() => _InvoiceListState();
+}
+
+class _InvoiceListState extends State<InvoiceList> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SizedBox(
+        width: 400,
+      child: ListView.builder(
+        shrinkWrap: true,
+          itemCount: widget.invoices.length,
+          itemBuilder: (BuildContext context, int index) =>
+              invoiceListCard(context, index)),
+      )
+    );
+  }
+
+
+  Widget invoiceListCard(BuildContext context, int index) {
+    return new Container(
+      child: Card(
+        child: new InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: <Widget>[
+                new Expanded(child: Text(
+                  widget.invoices[index].username,
+                  style: new TextStyle(fontSize: 20.0),
+                )),
+//                Spacer(),
+
+                new Expanded(child: Text('Base price: ${widget.invoices[index].basePrice.toString()}')),
+                new Expanded(child: Text('Labour: ${widget.invoices[index].labour.toString()}')),
+                new Expanded(child: Text('Parts: ${widget.invoices[index].parts.toString()}')),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
