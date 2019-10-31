@@ -30,7 +30,6 @@ class GarageProfile extends StatefulWidget {
 }
 
 class _GarageProfileState extends State<GarageProfile> {
-
   SingleGarage newGarage;
 
   Future<Null> fetchedSingleGarage(garageID) async {
@@ -49,7 +48,6 @@ class _GarageProfileState extends State<GarageProfile> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -67,8 +65,7 @@ class _GarageProfileState extends State<GarageProfile> {
                   newGarage.garageName,
                   'placeholder',
                   newGarage.reviews.last['rating'].toDouble(),
-                  newGarage.basePrice
-              ),
+                  newGarage.basePrice),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
               _BuildStatContainer(widget._calls, widget._views),
@@ -117,21 +114,16 @@ class InvoicingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-    color: Theme.of(context).scaffoldBackgroundColor,
-  padding: EdgeInsets.only(top: 8.0),
-  child: RaisedButton(
-
-  onPressed: () {Navigator.pushNamed(context, '/invoice');
-  },
-  child: const Text(
-  'Invoicing',
-  style: TextStyle(fontSize: 20)
-  ),
-  )
-  );
+        color: Theme.of(context).scaffoldBackgroundColor,
+        padding: EdgeInsets.only(top: 8.0),
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/invoice');
+          },
+          child: const Text('Invoicing', style: TextStyle(fontSize: 20)),
+        ));
   }
-  }
-
+}
 
 // class BuildFullName extends StatelessWidget {
 //  final String _garageName;
@@ -188,9 +180,6 @@ class BuildStatItem extends StatelessWidget {
     );
   }
 }
-
-
-
 
 Widget _buildSeparator(Size screenSize) {
   return Container(

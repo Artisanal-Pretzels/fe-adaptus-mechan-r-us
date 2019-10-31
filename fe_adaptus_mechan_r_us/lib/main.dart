@@ -24,23 +24,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-     if (user == null) {
+    if (user == null) {
       return MaterialApp(
-        home: new UserAuthenticate(
-          getUser
-        ),
+        home: new UserAuthenticate(getUser),
       );
     } else if (user?.garageID == null) {
-       return MaterialApp(
-         home: UserHome(),
-       );
-     } else {
       return MaterialApp(
-        home: new GarageProfile(
-          user.garageID
-        ),
+        home: UserHome(),
+      );
+    } else {
+      return MaterialApp(
+        home: new GarageProfile(user.garageID),
       );
     }
-
   }
 }

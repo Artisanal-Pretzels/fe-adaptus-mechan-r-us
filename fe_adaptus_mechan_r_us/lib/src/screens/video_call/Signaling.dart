@@ -106,7 +106,7 @@ class Signaling {
   void invite(String peer_id, String media, use_screen) {
     this._sessionId = this._selfId + '-' + peer_id;
 
-    print ("==== state ${this.onStateChange} ---===================");
+    print("==== state ${this.onStateChange} ---===================");
     if (this.onStateChange != null) {
       this.onStateChange(SignalingState.CallStateNew);
     }
@@ -294,7 +294,6 @@ class Signaling {
 
   void connect() async {
     try {
-
 //      var url = 'ws://192.168.230.119:4443';
 //      _socket = await WebSocket.connect(url);
 
@@ -319,7 +318,7 @@ class Signaling {
         'name': _displayName,
         'id': _selfId,
         'user_agent':
-        'flutter-webrtc/' + Platform.operatingSystem + '-plugin 0.0.1'
+            'flutter-webrtc/' + Platform.operatingSystem + '-plugin 0.0.1'
       });
     } catch (e) {
       if (this.onStateChange != null) {
@@ -334,7 +333,7 @@ class Signaling {
       'video': {
         'mandatory': {
           'minWidth':
-          '640', // Provide your own width, height and frame rate here
+              '640', // Provide your own width, height and frame rate here
           'minHeight': '480',
           'minFrameRate': '30',
         },

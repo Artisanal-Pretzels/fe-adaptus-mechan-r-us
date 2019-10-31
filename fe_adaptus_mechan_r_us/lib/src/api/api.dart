@@ -4,10 +4,9 @@ import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
 
-
 Future<SingleGarage> getSingleGarage(garageId) async {
   http.Response response =
-  await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
+      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
   dynamic data = json.decode(response.body);
 
   SingleGarage fetchedGarage = SingleGarage.fromJson(data);
@@ -16,10 +15,13 @@ Future<SingleGarage> getSingleGarage(garageId) async {
 }
 
 Future<User> getUser(email, password) async {
-  http.Response response = await http.post('https://stuck.azurewebsites.net/api/login', headers: {'Content-Type': 'application/json'}, body: '{"username": "$email", "password": "$password"}');
+  http.Response response = await http.post(
+      'https://stuck.azurewebsites.net/api/login',
+      headers: {'Content-Type': 'application/json'},
+      body: '{"username": "$email", "password": "$password"}');
   User newUser;
   dynamic data;
-  if(response.statusCode == 200) {
+  if (response.statusCode == 200) {
     data = json.decode(response.body);
     newUser = User.fromJson(data);
     print(newUser.email);

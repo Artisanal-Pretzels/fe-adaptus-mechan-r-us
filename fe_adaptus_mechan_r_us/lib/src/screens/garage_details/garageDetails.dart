@@ -58,9 +58,9 @@ class _GarageDetailsState extends State<GarageDetails> {
           body: GarageOverview(newGarage, widget.selectedGarage));
     } else {
       return new Center(
-      child: new CircularProgressIndicator(),
-    );
-  }
+        child: new CircularProgressIndicator(),
+      );
+    }
   }
 }
 
@@ -99,42 +99,43 @@ class _GarageOverviewState extends State<GarageOverview> {
   }
 }
 
-
-
 class CallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         margin: const EdgeInsets.all(10.0),
-    child: MaterialButton(
-    padding: EdgeInsets.all(20.0),
-    onPressed: () {
-    Navigator.push(context, new MaterialPageRoute(
-        builder: (BuildContext context) => new CallSample(ip:"192.168.230.119", id: "10")));
-    },
-    color: Colors.blue,
-    highlightColor: Colors.blueAccent,
-    textTheme: ButtonTextTheme.primary,
-    elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    child: Center(
-    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    Icon(Icons.call),
-    Container(
-    margin: const EdgeInsets.only(top: 8),
-    child: Text(
-    'Call',
-    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-    ),
-    ),
-    ]),
-    )));
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new CallSample(ip: "192.168.230.119", id: "10")));
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(Icons.call),
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Call',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
   }
 }
 
 void callButtonPressed() {
-
   return print("call");
 }
 

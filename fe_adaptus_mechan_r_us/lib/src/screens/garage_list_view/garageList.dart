@@ -31,10 +31,10 @@ class _GarageListState extends State<GarageList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-            child: ListView.builder(
-                itemCount: garages.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    garageListCard(context, index)),
+      child: ListView.builder(
+          itemCount: garages.length,
+          itemBuilder: (BuildContext context, int index) =>
+              garageListCard(context, index)),
     );
   }
 
@@ -43,14 +43,10 @@ class _GarageListState extends State<GarageList> {
       child: Card(
         child: new InkWell(
           onTap: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context)
-                {
-                  Garage selectedGarage = garages[index];
-                  return GarageDetails(selectedGarage);
-                }
-                )
-            );
+            Navigator.push(context, new MaterialPageRoute(builder: (context) {
+              Garage selectedGarage = garages[index];
+              return GarageDetails(selectedGarage);
+            }));
           },
           child: Padding(
             padding: const EdgeInsets.all(16.0),

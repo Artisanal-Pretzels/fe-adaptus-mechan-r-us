@@ -1,4 +1,3 @@
-
 //import 'package:fe_adaptus_mechan_r_us/src/screens/authentication/user-authentication.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garage_list_view.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
@@ -6,7 +5,6 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/home/userHome.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_list_view/garageList.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-
 
 //class Wrapper extends StatefulWidget {
 //  @override
@@ -21,8 +19,6 @@ import 'package:http/http.dart';
 //    return GarageProfile();
 //  }
 //}
-
-
 
 //class Wrapper extends StatelessWidget {
 //  @override
