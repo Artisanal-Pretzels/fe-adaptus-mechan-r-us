@@ -69,7 +69,7 @@ class _GarageListState extends State<GarageList> {
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Text(garages[index].basePrice.toString()),
                 ),
-                Text(garages[index].distance["distance"]),
+                Text(garages[index].distance["distance"] ?? 'loading'),
               ],
             ),
           ),

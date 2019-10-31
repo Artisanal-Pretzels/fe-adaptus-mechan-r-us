@@ -33,9 +33,9 @@ Future<User> getUser(email, password) async {
   return newUser;
 }
 
-Future<List<Garage>> getGarages() async {
+Future<List<Garage>> getGarages(location) async {
   http.Response response = await http.get(
-      'https://stuck.azurewebsites.net/api/location/distance?latitude=53&longitude=-2&increment=10');
+      'https://stuck.azurewebsites.net/api/location/distance?latitude=${location.latitude}&longitude=${location.longitude}&increment=10');
   dynamic data = json.decode(response.body);
 
   List<Garage> garageList = new List<Garage>();

@@ -1,5 +1,4 @@
 import 'package:fe_adaptus_mechan_r_us/src/screens/log_in/logIn.dart';
-import 'package:fe_adaptus_mechan_r_us/src/screens/user-wrapper.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/home/userHome.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
