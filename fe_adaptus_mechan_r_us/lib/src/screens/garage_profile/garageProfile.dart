@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
+
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/invoiceList.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/reviewList.dart';
+
 
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
   final String _views = '24';
   final int _garageID;
+  final bool _toggleInvoiceButton = false;
+  final bool _toogleReviewButton = false;
+
 
   GarageProfile(this._garageID);
 
@@ -30,7 +37,6 @@ class GarageProfile extends StatefulWidget {
 }
 
 class _GarageProfileState extends State<GarageProfile> {
-
   SingleGarage newGarage;
 
   Future<Null> fetchedSingleGarage(garageID) async {
@@ -49,7 +55,6 @@ class _GarageProfileState extends State<GarageProfile> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -67,14 +72,16 @@ class _GarageProfileState extends State<GarageProfile> {
                   newGarage.garageName,
                   'placeholder',
                   newGarage.reviews.last['rating'].toDouble(),
-                  newGarage.basePrice
-              ),
+                  newGarage.basePrice),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
               _BuildStatContainer(widget._calls, widget._views),
               _buildSeparator(screenSize),
               SizedBox(height: 10.0),
               InvoicingButton(),
+              DisplayInvoiceList(),
+              ReviewButton(),
+              DisplayReviewList(),
               SizedBox(height: 8.0),
             ],
           ),
@@ -113,25 +120,60 @@ class _BuildStatContainer extends StatelessWidget {
   }
 }
 
-class InvoicingButton extends StatelessWidget {
+class InvoicingButton extends State<GarageProfile> {
   @override
+
+  void _alterInvoiceToggle() async {
+    _changeInvoiceToggle(true);
+  }
+
+  void _changeInvoiceToggle(bool toggleInvoiceButton) {
+    setState(() {
+      this._toggleInvoiceButton = toggleInvoiceButton;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Container(
-    color: Theme.of(context).scaffoldBackgroundColor,
-  padding: EdgeInsets.only(top: 8.0),
-  child: RaisedButton(
-
-  onPressed: () {Navigator.pushNamed(context, '/invoice');
-  },
-  child: const Text(
-  'Invoicing',
-  style: TextStyle(fontSize: 20)
-  ),
-  )
-  );
-  }
+        color: Theme.of(context).scaffoldBackgroundColor,
+        padding: EdgeInsets.only(top: 8.0),
+        child: RaisedButton(
+          onPressed: () {
+            _alterInvoiceToggle();
+          },
+          child: const Text('Invoicing', style: TextStyle(fontSize: 20)),
+        ));
   }
 
+
+}
+class ReviewButton extends State<GarageProfile> {
+  @override
+
+  void _alterReviewToggle() async {
+    _changeReviewToggle(true);
+  }
+
+  void _changeReviewToggle(bool toggleRevieweButton) {
+    setState(() {
+      this._toggleReviewButton = toggleReviewButton;
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        padding: EdgeInsets.only(top: 8.0),
+        child: RaisedButton(
+          onPressed: () {
+            _alterReviewToggle();
+          },
+          child: const Text('Reviews', style: TextStyle(fontSize: 20)),
+        ));
+  }
+
+
+}
 
 // class BuildFullName extends StatelessWidget {
 //  final String _garageName;
@@ -189,9 +231,6 @@ class BuildStatItem extends StatelessWidget {
   }
 }
 
-
-
-
 Widget _buildSeparator(Size screenSize) {
   return Container(
     width: screenSize.width / 1.6,
@@ -199,4 +238,10 @@ Widget _buildSeparator(Size screenSize) {
     color: Colors.black54,
     margin: EdgeInsets.only(top: 4.0),
   );
+}
+
+class DisplayInvoiceList extends StatelessWidget{
+  if(this._toogleInvoiceButton) {
+  InvoiceList();
+  }
 }
