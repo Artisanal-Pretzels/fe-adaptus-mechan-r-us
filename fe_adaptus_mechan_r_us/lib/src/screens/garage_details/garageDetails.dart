@@ -62,7 +62,7 @@ class _GarageDetailsState extends State<GarageDetails> {
 
   @override
   Widget build(BuildContext context) {
-    if (newGarage != null) {
+    if (newGarage != null && reviewsList != null) {
       return Scaffold(
           appBar: AppBar(
             title: Text('Garage Details'),

@@ -5,6 +5,7 @@ import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
 
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
@@ -33,6 +34,8 @@ class GarageProfile extends StatefulWidget {
 class _GarageProfileState extends State<GarageProfile> {
 
   SingleGarage newGarage;
+  List<Invoice> invoiceList;
+  List<Review> reviewsList;
 
   Future<Null> fetchedSingleGarage(garageID) async {
     String selectedGarageId = garageID.toString();
@@ -43,10 +46,27 @@ class _GarageProfileState extends State<GarageProfile> {
     });
   }
 
+  Future<Null> fetchedInvoices() async {
+    String selectedGarageId = newGarage.garageID.toString();
+    var asyncResult = await getInvoices(selectedGarageId);
+    setState(() {
+      invoiceList = asyncResult;
+    });
+  }
+  Future<Null> fetchedReviews() async {
+    String selectedGarageId = newGarage.garageID.toString();
+    var asyncResult = await getReviews(selectedGarageId);
+    setState(() {
+      reviewsList = asyncResult;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     fetchedSingleGarage(widget._garageID);
+    fetchedInvoices();
+    fetchedReviews();
     super.initState();
   }
 
@@ -54,7 +74,7 @@ class _GarageProfileState extends State<GarageProfile> {
   @override
   Widget build(BuildContext context) {
 //    Size screenSize = MediaQuery.of(context).size;
-    if (newGarage != null) {
+    if (newGarage != null && reviewsList != null && invoiceList != null) {
       return Scaffold(
         appBar: AppBar(
           title: Text('Garage Profile'),

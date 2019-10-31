@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
 
 
 Future<SingleGarage> getSingleGarage(garageId) async {
@@ -43,4 +44,19 @@ Future<List<Review>> getReviews(garageId) async {
     reviewList.add(aReview);
   }
   return reviewList;
+}
+
+Future<List<Invoice>> getInvoices(garageId) async {
+  http.Response response = await http.get(
+      'https://stuck.azurewebsites.net/api/garage/$garageId');
+  dynamic data = json.decode(response.body);
+  dynamic invoices = data['invoices'];
+
+  List<Invoice> invoiceList = new List<Invoice>();
+
+  for (var invoice in invoices) {
+    Invoice anInvoice = Invoice.fromJson(invoice);
+    invoiceList.add(anInvoice);
+  }
+  return invoiceList;
 }
