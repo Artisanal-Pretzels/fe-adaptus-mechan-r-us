@@ -66,7 +66,7 @@ class _GarageProfileState extends State<GarageProfile> {
         new Expanded(child: TitleInfo(
                   newGarage.garageName,
                   'placeholder',
-                  newGarage.reviews.last['rating'].toDouble(),
+                  newGarage.reviews.last.rating.toDouble(),
                   newGarage.basePrice
               )),
 //                  SizedBox(height: screenSize.height / 6.4),

@@ -1,3 +1,5 @@
+
+
 class SingleGarage {
   int garageID;
   String garageName;
@@ -7,7 +9,7 @@ class SingleGarage {
   String phoneNumber;
   dynamic address;
   dynamic invoices;
-  List reviews;
+  dynamic reviews;
 
   SingleGarage(
       this.garageID,

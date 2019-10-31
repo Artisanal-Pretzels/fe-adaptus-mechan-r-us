@@ -3,6 +3,7 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
 
 //class  extends StatelessWidget {
 //  @override
@@ -27,6 +28,7 @@ class GarageDetails extends StatefulWidget {
 
 class _GarageDetailsState extends State<GarageDetails> {
   SingleGarage newGarage;
+  List<Review> reviewsList;
 
   Future<Null> fetchedSingleGarage() async {
     String selectedGarageId = widget.selectedGarage.garageID.toString();
@@ -36,10 +38,20 @@ class _GarageDetailsState extends State<GarageDetails> {
     });
   }
 
+  Future<Null> fetchedReviews() async {
+    String selectedGarageId = widget.selectedGarage.garageID.toString();
+    var asyncResult = await getReviews(selectedGarageId);
+    setState(() {
+      reviewsList = asyncResult;
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     fetchedSingleGarage();
+    fetchedReviews();
     super.initState();
   }
 
@@ -51,7 +63,7 @@ class _GarageDetailsState extends State<GarageDetails> {
             title: Text('Garage Details'),
             centerTitle: true,
           ),
-          body: GarageOverview(newGarage, widget.selectedGarage));
+          body: GarageOverview(newGarage, widget.selectedGarage, reviewsList));
     } else {
       return new Center(
       child: new CircularProgressIndicator(),
@@ -63,8 +75,9 @@ class _GarageDetailsState extends State<GarageDetails> {
 class GarageOverview extends StatefulWidget {
   final dynamic newGarage;
   final dynamic selectedGarage;
+  final dynamic reviewsList;
 
-  GarageOverview(this.newGarage, this.selectedGarage);
+  GarageOverview(this.newGarage, this.selectedGarage, this.reviewsList);
 
   @override
   _GarageOverviewState createState() => _GarageOverviewState();
@@ -79,7 +92,7 @@ class _GarageOverviewState extends State<GarageOverview> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -91,7 +104,9 @@ class _GarageOverviewState extends State<GarageOverview> {
               widget.newGarage.basePrice),
           callButton,
           GarageDescription(widget.newGarage.description),
-        ]);
+          ReviewsList(widget.reviewsList)
+        ])
+    );
   }
 }
 
@@ -124,7 +139,7 @@ void callButtonPressed() {
 }
 
 class GarageDescription extends StatelessWidget {
-  String description;
+  final String description;
 
   GarageDescription(this.description);
 
@@ -237,3 +252,47 @@ class TopImage extends StatelessWidget {
 //
 //  return fetchedGarage;
 //}
+
+class ReviewsList extends StatefulWidget {
+  final List<dynamic> reviews;
+
+  ReviewsList(this.reviews);
+
+  @override
+  _ReviewsListState createState() => _ReviewsListState();
+}
+
+class _ReviewsListState extends State<ReviewsList> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300.0,
+        child: Container(child: ListView.builder(
+          itemCount: widget.reviews.length,
+        itemBuilder: (BuildContext context, int index) => reviewsListCard(context, index)))
+    );}
+
+  Widget  reviewsListCard(BuildContext context, int index) {
+    return new Container (
+      child: Card(
+                  child: Row(
+            children: <Widget>[
+              Text(
+                widget.reviews[index].body,
+                style: new TextStyle(fontSize: 20.0),
+              ),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Text(widget.reviews[index].username),
+              ),
+              Text(widget.reviews[index].rating.toString()),
+            ],
+          ),
+      )
+    );
+
+  }
+
+}
+
