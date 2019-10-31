@@ -6,6 +6,7 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class GarageList extends StatefulWidget {
   @override
   _GarageListState createState() => _GarageListState();
