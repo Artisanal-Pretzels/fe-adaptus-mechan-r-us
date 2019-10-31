@@ -5,7 +5,9 @@ import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import 'dart:convert';
+
 
 class GarageList extends StatefulWidget {
   @override
@@ -15,17 +17,22 @@ class GarageList extends StatefulWidget {
 class _GarageListState extends State<GarageList> {
   List<Garage> garages = new List<Garage>();
 
-  Future<Null> gotGarages() async {
-    var something = await getGarages();
+  Future<Null> gotGarages(location) async {
+    var something = await getGarages(location);
     setState(() {
       garages = something;
     });
   }
 
+  Future<Null> getLocationAndGarages() async {
+    Position location = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+    gotGarages(location);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    gotGarages();
+    getLocationAndGarages();
     super.initState();
   }
 
