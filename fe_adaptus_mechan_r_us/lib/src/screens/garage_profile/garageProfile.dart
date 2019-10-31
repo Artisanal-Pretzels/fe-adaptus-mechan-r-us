@@ -373,17 +373,6 @@ class BuildStatItem extends StatelessWidget {
   }
 }
 
-//
-//Widget _buildSeparator(Size screenSize) {
-//  return Container(
-//    width: screenSize.width / 1.6,
-//    height: 2.0,
-//    color: Colors.black54,
-//    margin: EdgeInsets.only(top: 4.0),
-//  );
-//}
-
-
 class InvoiceList extends StatefulWidget {
   final List invoices;
   InvoiceList(this.invoices);
