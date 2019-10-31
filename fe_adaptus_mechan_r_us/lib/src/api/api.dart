@@ -28,6 +28,7 @@ Future<User> getUser(email, password) async {
   return newUser;
 }
 
+
 Future<List<Review>> getReviews(garageId) async {
   http.Response response = await http.get(
       'https://stuck.azurewebsites.net/api/garage/$garageId');

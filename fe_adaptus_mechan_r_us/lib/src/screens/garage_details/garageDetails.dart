@@ -275,22 +275,39 @@ class _ReviewsListState extends State<ReviewsList> {
   Widget  reviewsListCard(BuildContext context, int index) {
     return new Container (
       child: Card(
-                  child: Row(
-            children: <Widget>[
+          child: Column(
+            children: [
               Text(
                 widget.reviews[index].body,
                 style: new TextStyle(fontSize: 20.0),
               ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Text(widget.reviews[index].username),
-              ),
-              Text(widget.reviews[index].rating.toString()),
-            ],
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Row (
+
+                        children: [Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Text('Username: ${widget.reviews[index].username}'),
+                      ),
+
+//
+//                        padding: const EdgeInsets.only(left: 16.0, right: 70.0),
+                        Text('Rating: ${widget.reviews[index].rating.toString()}'),
+                        ]
+                      )
+                    )
+                  ]
+                ),
+
+
+            ]
+          )
+
           ),
-      )
-    );
+      );
 
   }
 
