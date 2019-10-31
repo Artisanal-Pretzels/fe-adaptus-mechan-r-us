@@ -3,6 +3,7 @@ import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
+import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -69,17 +70,4 @@ class _GarageListState extends State<GarageList> {
       ),
     );
   }
-}
-
-Future<List<Garage>> getGarages() async {
-  http.Response response = await http.get(
-      'https://stuck.azurewebsites.net/api/location/distance?latitude=53&longitude=-2&increment=10');
-  dynamic data = json.decode(response.body);
-
-  List<Garage> garageList = new List<Garage>();
-  for (var garage in data) {
-    Garage aGarage = Garage.fromJson(garage);
-    garageList.add(aGarage);
-  }
-  return garageList;
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 
 Future<SingleGarage> getSingleGarage(garageId) async {
   http.Response response =
@@ -27,4 +28,17 @@ Future<User> getUser(email, password) async {
     print(newUser.email);
   }
   return newUser;
+}
+
+Future<List<Garage>> getGarages() async {
+  http.Response response = await http.get(
+      'https://stuck.azurewebsites.net/api/location/distance?latitude=53&longitude=-2&increment=10');
+  dynamic data = json.decode(response.body);
+
+  List<Garage> garageList = new List<Garage>();
+  for (var garage in data) {
+    Garage aGarage = Garage.fromJson(garage);
+    garageList.add(aGarage);
+  }
+  return garageList;
 }
