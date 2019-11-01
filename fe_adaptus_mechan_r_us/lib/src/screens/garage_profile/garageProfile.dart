@@ -7,10 +7,12 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_webrtc/webrtc.dart';
 import 'dart:io';
 import 'dart:core';
 import '../video_call/Signaling.dart';
+
 
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
@@ -41,6 +43,10 @@ class _GarageProfileState extends State<GarageProfile> {
   List<Invoice> invoiceList;
   List<Review> reviewsList;
 
+  bool invoiceToggle = false;
+  bool reviewToggle = false;
+
+
   Signaling _signaling;
   String _displayName =
       Platform.localHostname + '(' + Platform.operatingSystem + ")";
@@ -54,6 +60,7 @@ class _GarageProfileState extends State<GarageProfile> {
 //  final String GarageToCallId;
 
   _GarageProfileState({Key key, @required this.serverIP, this.userId});
+
 
   Future<Null> fetchedSingleGarage(garageID) async {
     String selectedGarageId = garageID.toString();
@@ -79,6 +86,20 @@ class _GarageProfileState extends State<GarageProfile> {
     setState(() {
       reviewsList = asyncResult;
     });
+  }
+
+
+  void invoiceButtonPress() {
+    setState(() {
+      invoiceToggle = !invoiceToggle;
+    });
+  }
+
+  void reviewButtonPress() {
+    setState(() {
+      reviewToggle = !reviewToggle;
+    });
+
   }
 
   @override
@@ -194,15 +215,23 @@ class _GarageProfileState extends State<GarageProfile> {
                   newGarage.garageName,
                   'placeholder',
                   newGarage.reviews.last['rating'].toDouble(),
-                  newGarage.basePrice),
+                  newGarage.basePrice
+              ),
+
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
      _BuildStatContainer(widget._calls, widget._views),
 //              _buildSeparator(screenSize),
 //              SizedBox(height: 10.0),
-        InvoicingButton(),
+              InvoicingButton(invoiceButtonPress),
+
 //              SizedBox(height: 8.0),
-         InvoiceList(newGarage.invoices),
+            DisplayInvoiceList(invoiceToggle, invoiceList),
+              ReviewsButton(reviewButtonPress),
+DisplayReviewList(reviewToggle, reviewsList),
+
+//         InvoiceList(invoiceList),
+//              ReviewsList(reviewsList),
             ],
         )),
       );
@@ -299,42 +328,6 @@ class _BuildStatContainer extends StatelessWidget {
   }
 }
 
-class InvoicingButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        constraints: BoxConstraints(minWidth: 230.0, minHeight: 15.0),
-    height: 30,color: Theme.of(context).scaffoldBackgroundColor,
-        padding: EdgeInsets.only(top: 8.0),
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/invoice');
-          },
-          child: const Text('Invoicing', style: TextStyle(fontSize: 20)),
-        ));
-  }
-}
-
-// class BuildFullName extends StatelessWidget {
-//  final String _garageName;
-//  BuildFullName(this._garageName);
-//
-//  final TextStyle _nameTextStyle = TextStyle(
-//     fontFamily: 'Impact',
-//     color: Colors.black,
-//     fontSize: 28.0,
-//     fontWeight: FontWeight.w700,
-//   );
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       _garageName,
-//       style: _nameTextStyle,
-//     );
-//   }
-// }
-
 class BuildStatItem extends StatelessWidget {
   final String count;
   final String label;
@@ -386,40 +379,162 @@ class _InvoiceListState extends State<InvoiceList> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 400,
-      child: ListView.builder(
-        shrinkWrap: true,
-          itemCount: widget.invoices.length,
-          itemBuilder: (BuildContext context, int index) =>
-              invoiceListCard(context, index)),
-    );
+    if (widget.invoices != null) {
+     return ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.invoices.length,
+            itemBuilder: (BuildContext context, int index) =>
+                invoiceListCard(context, index));
+
+    } else {
+      return Text('Loading... ');
+    }
   }
 
 
   Widget invoiceListCard(BuildContext context, int index) {
     return new Container(
-      height: 40.0,
+      height: 60.0,
       child: Card(
         child: new InkWell(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
+            padding: const EdgeInsets.all(8.0),
+            child: Column (
+            children: [Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                  widget.invoices[index]['username'],
-                  style: new TextStyle(fontSize: 20.0),
-                ),
-//                Spacer(),
 
-                Text('Base price: ${widget.invoices[index]['basePrice'].toString()}'),
-                Text('Labour: ${widget.invoices[index]['labour'].toString()}'),
-                Text('Parts: ${widget.invoices[index]['parts'].toString()}'),
+                  'Username: ${widget.invoices[index].username}',
+                  style: new TextStyle(fontSize: 15.0),
+                ),
+                Text('Base price: ${widget.invoices[index].basePrice.toString()}'),
+              ]
+//                Spacer(),
+              ),
+               Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: [
+
+                   Text('Labour: ${widget.invoices[index].labour.toString()}'),
+                   Text('Parts: ${widget.invoices[index].parts.toString()}'),
+                 ]
+               )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class DisplayInvoiceList extends StatelessWidget {
+  final bool invoicingToggle;
+  final List<Invoice> invoiceList;
+
+  DisplayInvoiceList(this.invoicingToggle, this.invoiceList);
+
+  @override
+  Widget build(BuildContext context) {
+    if (invoicingToggle == true) {
+      return InvoiceList(invoiceList);
+    }
+    else {
+      return Container(
+        height:0,
+        width:0
+      );
+    }
+  }
+
+}
+
+class DisplayReviewList extends StatelessWidget {
+  final bool reviewsToggle;
+  final List<Review> reviewList;
+
+  DisplayReviewList(this.reviewsToggle, this.reviewList);
+
+  @override
+  Widget build(BuildContext context) {
+    if (reviewsToggle == true) {
+      return ReviewsList(reviewList);
+    }
+    else {
+      return Container(
+          height:0,
+          width:0
+      );
+    }
+  }
+
+}
+
+class InvoicingButton extends StatelessWidget {
+  final onButtonPress;
+
+  InvoicingButton(this.onButtonPress);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        margin: const EdgeInsets.all(10.0),
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              onButtonPress();
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Invoices',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
+  }
+}
+
+class ReviewsButton extends StatelessWidget {
+  final onButtonPress;
+
+  ReviewsButton(this.onButtonPress);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        margin: const EdgeInsets.all(10.0),
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              onButtonPress();
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Reviews',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
   }
 }
