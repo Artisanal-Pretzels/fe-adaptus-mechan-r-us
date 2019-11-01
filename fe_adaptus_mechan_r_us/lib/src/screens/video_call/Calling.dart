@@ -198,10 +198,10 @@ class _CallSampleState extends State<CallSample> {
                   child: new Icon(Icons.call_end),
                   backgroundColor: Colors.pink,
                 ),
-//                FloatingActionButton(
-//                  child: const Icon(Icons.mic_off),
-//                  onPressed: _muteMic,
-//                )
+                FloatingActionButton(
+                  child: const Icon(Icons.mic_off),
+                  onPressed: _muteMic,
+                )
               ])) : null,
       body: _inCalling
           ? OrientationBuilder(builder: (context, orientation) {
