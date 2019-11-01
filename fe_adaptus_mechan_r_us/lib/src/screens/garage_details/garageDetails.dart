@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/video_call/Calling.dart';
 
 class GarageDetails extends StatefulWidget {
   final Garage selectedGarage;
@@ -19,6 +20,8 @@ class _GarageDetailsState extends State<GarageDetails> {
   SingleGarage newGarage;
   List<Review> reviewsList;
   var signalInst;
+  bool reviewToggle = false;
+  bool descriptionToggle = false;
 
   Future<Null> fetchedSingleGarage() async {
     String selectedGarageId = widget.selectedGarage.garageID.toString();
@@ -34,6 +37,20 @@ class _GarageDetailsState extends State<GarageDetails> {
     setState(() {
       reviewsList = asyncResult;
     });
+  }
+
+  void reviewButtonPress() {
+    setState(() {
+      reviewToggle = !reviewToggle;
+    });
+
+  }
+
+  void descriptionButtonPress() {
+    setState(() {
+      descriptionToggle = !descriptionToggle;
+    });
+
   }
 
 
@@ -53,7 +70,7 @@ class _GarageDetailsState extends State<GarageDetails> {
             title: Text('Garage Details'),
             centerTitle: true,
           ),
-          body: GarageOverview(newGarage, widget.selectedGarage, reviewsList));
+          body: GarageOverview(newGarage, widget.selectedGarage, reviewsList, reviewButtonPress, reviewToggle, descriptionButtonPress, descriptionToggle));
     } else {
       return new Center(
       child: new CircularProgressIndicator(),
@@ -66,8 +83,13 @@ class GarageOverview extends StatefulWidget {
   final dynamic newGarage;
   final dynamic selectedGarage;
   final dynamic reviewsList;
+  final dynamic reviewButtonPress;
+  final dynamic reviewToggle;
+  final dynamic descriptionButtonPress;
+  final dynamic descriptionToggle;
 
-  GarageOverview(this.newGarage, this.selectedGarage, this.reviewsList);
+
+  GarageOverview(this.newGarage, this.selectedGarage, this.reviewsList, this.reviewButtonPress, this.reviewToggle, this.descriptionButtonPress, this.descriptionToggle);
 
   @override
   _GarageOverviewState createState() => _GarageOverviewState();
@@ -93,8 +115,10 @@ class _GarageOverviewState extends State<GarageOverview> {
               widget.selectedGarage.ratings,
               widget.newGarage.basePrice),
           CallButton(widget.newGarage.garageID.toString()),
-          GarageDescription(widget.newGarage.description),
-          ReviewsList(widget.reviewsList)
+          DescriptionButton(widget.descriptionButtonPress),
+          DisplayDescription(widget.descriptionToggle, widget.newGarage.description),
+          ReviewsButton(widget.reviewButtonPress),
+          DisplayReviewList(widget.reviewToggle, widget.reviewsList),
         ])
     );
   }
@@ -285,7 +309,7 @@ class _ReviewsListState extends State<ReviewsList> {
 
   Widget  reviewsListCard(BuildContext context, int index) {
     return new Container (
-      height: 60,
+      height: 80,
       child: Card(
           child: Column(
             children: [
@@ -322,6 +346,115 @@ class _ReviewsListState extends State<ReviewsList> {
       );
     }
   }
+
+class DisplayReviewList extends StatelessWidget {
+  final bool reviewsToggle;
+  final List<Review> reviewList;
+
+  DisplayReviewList(this.reviewsToggle, this.reviewList);
+
+  @override
+  Widget build(BuildContext context) {
+    if (reviewsToggle == true) {
+      return ReviewsList(reviewList);
+    }
+    else {
+      return Container(
+          height:0,
+          width:0
+      );
+    }
+  }
+
 }
 
+class ReviewsButton extends StatelessWidget {
+  final onButtonPress;
+
+  ReviewsButton(this.onButtonPress);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        margin: const EdgeInsets.all(10.0),
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              onButtonPress();
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Reviews',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
+  }
+}
+
+
+class DisplayDescription extends StatelessWidget {
+  final bool descriptionToggle;
+  final String description;
+
+  DisplayDescription(this.descriptionToggle, this.description);
+
+  @override
+  Widget build(BuildContext context) {
+    if (descriptionToggle == true) {
+      return GarageDescription(description);
+    }
+    else {
+      return Container(
+          height:0,
+          width:0
+      );
+    }
+  }
+
+}
+
+class DescriptionButton extends StatelessWidget {
+  final onButtonPress;
+
+  DescriptionButton(this.onButtonPress);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        margin: const EdgeInsets.all(10.0),
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              onButtonPress();
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Garage Description',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
+  }
+}
 

@@ -72,7 +72,7 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
 //                color: Colors.black87,
 //                size: 250,
 //              ),
-              Image.asset('assets/images/Stuk-Logo.png'),
+              Image.asset('assets/images/Stuk-Logo.png', height: 350, width:350),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
