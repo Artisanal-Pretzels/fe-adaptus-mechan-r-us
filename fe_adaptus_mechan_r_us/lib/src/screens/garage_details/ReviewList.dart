@@ -13,7 +13,7 @@ class _ReviewsListState extends State<ReviewsList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 300.0,
+        height: 400.0,
         child: Container(child: ListView.builder(
             itemCount: widget.reviews.length,
             itemBuilder: (BuildContext context, int index) => reviewsListCard(context, index)))
