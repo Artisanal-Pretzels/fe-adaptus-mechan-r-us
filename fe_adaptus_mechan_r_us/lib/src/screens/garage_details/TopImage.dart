@@ -12,8 +12,8 @@ class TopImage extends StatelessWidget {
         height: 200,
         child: Image.network(
           imageURL,
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
+          fit: BoxFit.fill,
+          alignment: Alignment.center,
         ),
       ),
     );
