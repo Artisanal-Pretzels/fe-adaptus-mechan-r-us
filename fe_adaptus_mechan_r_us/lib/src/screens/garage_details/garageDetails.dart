@@ -285,15 +285,22 @@ class ReviewsList extends StatefulWidget {
 class _ReviewsListState extends State<ReviewsList> {
   @override
   Widget build(BuildContext context) {
+    if (widget.reviews != null) {
+
     return SizedBox(
       height: 300.0,
         child: Container(child: ListView.builder(
-          itemCount: widget.reviews.length,
+          itemCount: widget.reviews?.length,
         itemBuilder: (BuildContext context, int index) => reviewsListCard(context, index)))
-    );}
+    ); } else {
+      return Text('Loading...');
+    }
+
+    }
 
   Widget  reviewsListCard(BuildContext context, int index) {
     return new Container (
+      height: 60,
       child: Card(
           child: Column(
             children: [
