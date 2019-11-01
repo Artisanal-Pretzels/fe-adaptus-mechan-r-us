@@ -19,6 +19,7 @@ class _GarageListState extends State<GarageList> {
 
   Future<Null> gotGarages(location) async {
     var something = await getGarages(location);
+    something.sort((a, b) => a.distance['distance'].compareTo(b.distance['distance']));
     setState(() {
       garages = something;
     });
@@ -67,7 +68,7 @@ class _GarageListState extends State<GarageList> {
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: Text(garages[index].basePrice.toString()),
+                  child: Text('£${garages[index].basePrice}'),
                 ),
                 Text(garages[index].distance["distance"] ?? 'loading'),
               ],

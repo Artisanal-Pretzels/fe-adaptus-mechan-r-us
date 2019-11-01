@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import '../widgets/invoice.dart'
-import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/TitleInfo.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/TopImage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
