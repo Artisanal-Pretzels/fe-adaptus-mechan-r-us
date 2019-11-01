@@ -17,5 +17,3 @@ class Garage {
         json['distance']);
   }
 }
-
-//garageID: json['garageID'] as int, garageName: json['garageName'], ratings: json['ratings'] as double, basePrice: json['basePrice'] as double, distance: json['distance'] as Map
