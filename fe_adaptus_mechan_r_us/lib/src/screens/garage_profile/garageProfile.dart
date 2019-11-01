@@ -38,6 +38,7 @@ class _GarageProfileState extends State<GarageProfile> {
   List<Invoice> invoiceList;
   List<Review> reviewsList;
   bool invoiceToggle = false;
+  bool reviewToggle = false;
 
   Future<Null> fetchedSingleGarage(garageID) async {
     String selectedGarageId = garageID.toString();
@@ -74,6 +75,11 @@ class _GarageProfileState extends State<GarageProfile> {
     });
   }
 
+  void reviewButtonPress() {
+    setState(() {
+      reviewToggle = !reviewToggle;
+    });
+  }
 
   @override
   void initState() {
@@ -106,11 +112,15 @@ class _GarageProfileState extends State<GarageProfile> {
      _BuildStatContainer(widget._calls, widget._views),
 //              _buildSeparator(screenSize),
 //              SizedBox(height: 10.0),
-        InvoicingButton(invoiceButtonPress),
+              InvoicingButton(invoiceButtonPress),
+
 //              SizedBox(height: 8.0),
             DisplayInvoiceList(invoiceToggle, invoiceList),
+              ReviewsButton(reviewButtonPress),
+DisplayReviewList(reviewToggle, reviewsList),
+
 //         InvoiceList(invoiceList),
-              ReviewsList(reviewsList),
+//              ReviewsList(reviewsList),
             ],
         )),
       );
@@ -214,14 +224,12 @@ class _InvoiceListState extends State<InvoiceList> {
   @override
   Widget build(BuildContext context) {
     if (widget.invoices != null) {
-      return SizedBox(
-        height: 400,
-        child: ListView.builder(
+     return ListView.builder(
             shrinkWrap: true,
             itemCount: widget.invoices.length,
             itemBuilder: (BuildContext context, int index) =>
-                invoiceListCard(context, index)),
-      );
+                invoiceListCard(context, index));
+
     } else {
       return Text('Loading... ');
     }
@@ -286,6 +294,27 @@ class DisplayInvoiceList extends StatelessWidget {
 
 }
 
+class DisplayReviewList extends StatelessWidget {
+  final bool reviewsToggle;
+  final List<Review> reviewList;
+
+  DisplayReviewList(this.reviewsToggle, this.reviewList);
+
+  @override
+  Widget build(BuildContext context) {
+    if (reviewsToggle == true) {
+      return ReviewsList(reviewList);
+    }
+    else {
+      return Container(
+          height:0,
+          width:0
+      );
+    }
+  }
+
+}
+
 class InvoicingButton extends StatelessWidget {
   final onButtonPress;
 
@@ -320,3 +349,36 @@ class InvoicingButton extends StatelessWidget {
   }
 }
 
+class ReviewsButton extends StatelessWidget {
+  final onButtonPress;
+
+  ReviewsButton(this.onButtonPress);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+        margin: const EdgeInsets.all(10.0),
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              onButtonPress();
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Reviews',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
+  }
+}
