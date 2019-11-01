@@ -148,46 +148,6 @@ class _BuildStatContainer extends StatelessWidget {
   }
 }
 
-//class InvoicingButton extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//        constraints: BoxConstraints(minWidth: 230.0, minHeight: 15.0),
-//    height: 30,
-//    color: Theme.of(context).scaffoldBackgroundColor,
-//  padding: EdgeInsets.only(top: 8.0),
-//  child:RaisedButton(
-//
-//  onPressed: () {Navigator.pushNamed(context, '/invoice');
-//  },
-//  child: const Text(
-//  'Invoicing',
-//  style: TextStyle(fontSize: 20)
-//  ),
-//  ));
-//  }
-//  }
-
-
-// class BuildFullName extends StatelessWidget {
-//  final String _garageName;
-//  BuildFullName(this._garageName);
-//
-//  final TextStyle _nameTextStyle = TextStyle(
-//     fontFamily: 'Impact',
-//     color: Colors.black,
-//     fontSize: 28.0,
-//     fontWeight: FontWeight.w700,
-//   );
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       _garageName,
-//       style: _nameTextStyle,
-//     );
-//   }
-// }
 
 class BuildStatItem extends StatelessWidget {
   final String count;
@@ -359,27 +319,4 @@ class InvoicingButton extends StatelessWidget {
             )));
   }
 }
-//class InvoicingButton extends State<GarageProfile> {
-//  @override
-//
-//  void _alterInvoiceToggle() async {
-//    _changeInvoiceToggle(true);
-//  }
-//
-//  void _changeInvoiceToggle(bool toggleInvoiceButton) {
-//    setState(() {
-//      this._toggleInvoiceButton = toggleInvoiceButton;
-//    });
-//  }
-//
-//  Widget build(BuildContext context) {
-//    return Container(
-//        color: Theme.of(context).scaffoldBackgroundColor,
-//        padding: EdgeInsets.only(top: 8.0),
-//        child: RaisedButton(
-//          onPressed: () {
-//            _alterInvoiceToggle();
-//          },
-//          child: const Text('Invoicing', style: TextStyle(fontSize: 20)),
-//        ));
-//  }
+
