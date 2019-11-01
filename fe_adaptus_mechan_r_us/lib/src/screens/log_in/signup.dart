@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
 
 enum WidgetMarker{
   User,Garage
@@ -227,6 +228,101 @@ class _userWidgetState extends State<userWidget> {
               return null;
             },
             decoration: new InputDecoration(
+                labelText: "Username",
+                prefixIcon: Icon(Icons.person_add,color:Colors.black,)
+            ),
+            keyboardType: TextInputType.text,
+
+          ),
+          new TextFormField(
+            style: new TextStyle(
+                fontSize: 12.0,
+                height: 0.1,
+                color: Colors.black
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: new InputDecoration(
+                labelText: "Password",
+                prefixIcon: Icon(Icons.security,color:Colors.black,)
+            ),
+            keyboardType: TextInputType.text,
+
+          ),
+          new TextFormField(
+            style: new TextStyle(
+                fontSize: 12.0,
+                height: 0.1,
+                color: Colors.black
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: new InputDecoration(
+                labelText: "Name",
+                prefixIcon: Icon(Icons.person,color:Colors.black,)
+            ),
+            keyboardType: TextInputType.text,
+
+          ),
+          new TextFormField(
+            style: new TextStyle(
+                fontSize: 12.0,
+                height: 0.1,
+                color: Colors.black
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: new InputDecoration(
+                labelText: "Email",
+                prefixIcon: Icon(Icons.mail,color:Colors.black,)
+            ),
+            keyboardType: TextInputType.text,
+
+          ),
+          new TextFormField(
+            style: new TextStyle(
+                fontSize: 12.0,
+                height: 0.1,
+                color: Colors.black
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: new InputDecoration(
+                labelText: "Phone No.",
+                prefixIcon: Icon(Icons.phone_android,color:Colors.black,)
+            ),
+            keyboardType: TextInputType.text,
+
+          ),
+          new TextFormField(
+            style: new TextStyle(
+                fontSize: 12.0,
+                height: 0.1,
+                color: Colors.black
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: new InputDecoration(
                 labelText: "Garage Name",
                 prefixIcon: Icon(Icons.business,color:Colors.black,)
             ),
@@ -398,5 +494,20 @@ class _userWidgetState extends State<userWidget> {
       ),
     );
   }
+
+}
+
+
+Future<User> postUser({
+  username,
+  password,
+  name,
+  email,
+  phoneNumber,
+  paymentEmail,
+  garageName,
+  garageDescription,
+
+}) {
 
 }

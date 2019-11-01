@@ -108,11 +108,11 @@ class _UserAuthenticateState extends State<UserAuthenticate> {
                                 ),
                                 new TextFormField(
                                   decoration: new InputDecoration(
-                                    labelText: "Invalid Password",
+                                    labelText: "Password",
                                   ),
                                   keyboardType: TextInputType.text,
                                   validator: (val) =>
-                                  val.length < 4 ? 'password too short' : null,
+                                  val.length < 4 ? 'Invalid Password' : null,
                                   onSaved: (val) => _password = val,
                                   obscureText: true,
                                   textAlign: TextAlign.center
