@@ -232,10 +232,10 @@ class _GarageProfileState extends State<GarageProfile> {
                     child: new Icon(Icons.call_end),
                     backgroundColor: Colors.pink,
                   ),
-//                FloatingActionButton(
-//                  child: const Icon(Icons.mic_off),
-//                  onPressed: _muteMic,
-//                )
+                FloatingActionButton(
+                  child: const Icon(Icons.mic_off),
+                  onPressed: _muteMic,
+                )
                 ])),
         body: OrientationBuilder(builder: (context, orientation) {
           return new Container(
