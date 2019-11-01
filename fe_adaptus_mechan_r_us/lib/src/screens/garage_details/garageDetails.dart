@@ -5,20 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
-
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/ReviewList.dart';
 import '../video_call/Signaling.dart';
-
-//class  extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//        appBar: AppBar(
-//          title: Text('Garage Details'),
-//          centerTitle: true,
-//        ),
-//        body: GarageOverview());
-//  }
-//}
 
 class GarageDetails extends StatefulWidget {
   final Garage selectedGarage;
@@ -33,7 +21,6 @@ class _GarageDetailsState extends State<GarageDetails> {
   SingleGarage newGarage;
   List<Review> reviewsList;
   var signalInst;
-
 
   Future<Null> fetchedSingleGarage() async {
     String selectedGarageId = widget.selectedGarage.garageID.toString();
@@ -71,9 +58,9 @@ class _GarageDetailsState extends State<GarageDetails> {
           body: GarageOverview(newGarage, widget.selectedGarage, reviewsList));
     } else {
       return new Center(
-      child: new CircularProgressIndicator(),
-    );
-  }
+        child: new CircularProgressIndicator(),
+      );
+    }
   }
 }
 
@@ -115,8 +102,6 @@ class _GarageOverviewState extends State<GarageOverview> {
   }
 }
 
-
-
 class CallButton extends StatelessWidget {
 
   final String garageId;
@@ -127,34 +112,37 @@ class CallButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         margin: const EdgeInsets.all(10.0),
-    child: MaterialButton(
-    padding: EdgeInsets.all(20.0),
-    onPressed: () {
-    Navigator.push(context, new MaterialPageRoute(
-        builder: (BuildContext context) => new CallSample(ip:"192.168.230.119", userId: "999", GarageToCallId: garageId )));
-    },
-    color: Colors.blue,
-    highlightColor: Colors.blueAccent,
-    textTheme: ButtonTextTheme.primary,
-    elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    child: Center(
-    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    Icon(Icons.call),
-    Container(
-    margin: const EdgeInsets.only(top: 8),
-    child: Text(
-    'Call',
-    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-    ),
-    ),
-    ]),
-    )));
+        child: MaterialButton(
+            padding: EdgeInsets.all(20.0),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new CallSample(ip: "192.168.230.119", userId: "999", GarageToCallId: garageId )));
+            },
+            color: Colors.blue,
+            highlightColor: Colors.blueAccent,
+            textTheme: ButtonTextTheme.primary,
+            elevation: 2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(Icons.call),
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'Call',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ]),
+            )));
   }
 }
-
 
 class GarageDescription extends StatelessWidget {
   final String description;
@@ -261,75 +249,5 @@ class TopImage extends StatelessWidget {
       ),
     );
   }
-}
-
-//Future<SingleGarage> getSingleGarage(garageId) async {
-//  http.Response response =
-//      await http.get('https://stuck.azurewebsites.net/api/garage/$garageId');
-//  dynamic data = json.decode(response.body);
-//
-//  SingleGarage fetchedGarage = SingleGarage.fromJson(data);
-//
-//  return fetchedGarage;
-//}
-
-class ReviewsList extends StatefulWidget {
-  final List<dynamic> reviews;
-
-  ReviewsList(this.reviews);
-
-  @override
-  _ReviewsListState createState() => _ReviewsListState();
-}
-
-class _ReviewsListState extends State<ReviewsList> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300.0,
-        child: Container(child: ListView.builder(
-          itemCount: widget.reviews.length,
-        itemBuilder: (BuildContext context, int index) => reviewsListCard(context, index)))
-    );}
-
-  Widget  reviewsListCard(BuildContext context, int index) {
-    return new Container (
-      child: Card(
-          child: Column(
-            children: [
-              Text(
-                widget.reviews[index].body,
-                style: new TextStyle(fontSize: 20.0),
-              ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Row (
-
-                        children: [Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: Text('Username: ${widget.reviews[index].username}'),
-                      ),
-
-//
-//                        padding: const EdgeInsets.only(left: 16.0, right: 70.0),
-                        Text('Rating: ${widget.reviews[index].rating.toString()}'),
-                        ]
-                      )
-                    )
-                  ]
-                ),
-
-
-            ]
-          )
-
-          ),
-      );
-
-  }
-
 }
 

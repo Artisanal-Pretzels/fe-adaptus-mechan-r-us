@@ -36,7 +36,6 @@ class GarageProfile extends StatefulWidget {
 }
 
 class _GarageProfileState extends State<GarageProfile> {
-
   SingleGarage newGarage;
   List<Invoice> invoiceList;
   List<Review> reviewsList;
@@ -194,8 +193,7 @@ class _GarageProfileState extends State<GarageProfile> {
                   newGarage.garageName,
                   'placeholder',
                   newGarage.reviews.last['rating'].toDouble(),
-                  newGarage.basePrice
-              ),
+                  newGarage.basePrice),
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
      _BuildStatContainer(widget._calls, widget._views),
@@ -305,21 +303,16 @@ class InvoicingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         constraints: BoxConstraints(minWidth: 230.0, minHeight: 15.0),
-    height: 30,
-    color: Theme.of(context).scaffoldBackgroundColor,
-  padding: EdgeInsets.only(top: 8.0),
-  child:RaisedButton(
-
-  onPressed: () {Navigator.pushNamed(context, '/invoice');
-  },
-  child: const Text(
-  'Invoicing',
-  style: TextStyle(fontSize: 20)
-  ),
-  ));
+    height: 30,color: Theme.of(context).scaffoldBackgroundColor,
+        padding: EdgeInsets.only(top: 8.0),
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/invoice');
+          },
+          child: const Text('Invoicing', style: TextStyle(fontSize: 20)),
+        ));
   }
-  }
-
+}
 
 // class BuildFullName extends StatelessWidget {
 //  final String _garageName;
@@ -379,19 +372,6 @@ class BuildStatItem extends StatelessWidget {
       );
   }
 }
-
-
-
-//
-//Widget _buildSeparator(Size screenSize) {
-//  return Container(
-//    width: screenSize.width / 1.6,
-//    height: 2.0,
-//    color: Colors.black54,
-//    margin: EdgeInsets.only(top: 4.0),
-//  );
-//}
-
 
 class InvoiceList extends StatefulWidget {
   final List invoices;

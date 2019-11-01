@@ -1,5 +1,4 @@
 import 'package:fe_adaptus_mechan_r_us/src/screens/log_in/logIn.dart';
-import 'package:fe_adaptus_mechan_r_us/src/screens/user-wrapper.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/home/userHome.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/User.dart';
 import 'package:fe_adaptus_mechan_r_us/src/screens/garage_profile/garageProfile.dart';
@@ -24,23 +23,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-     if (user == null) {
+    if (user == null) {
       return MaterialApp(
-        home: new UserAuthenticate(
-          getUser
-        ),
+        home: new UserAuthenticate(getUser),
       );
     } else if (user?.garageID == null) {
-       return MaterialApp(
-         home: UserHome(),
-       );
-     } else {
       return MaterialApp(
-        home: new GarageProfile(
-          user.garageID
-        ),
+        home: UserHome(),
+      );
+    } else {
+      return MaterialApp(
+        home: new GarageProfile(user.garageID),
       );
     }
-
   }
 }

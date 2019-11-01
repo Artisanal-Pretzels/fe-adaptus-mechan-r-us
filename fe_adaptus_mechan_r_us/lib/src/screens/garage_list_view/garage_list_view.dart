@@ -33,7 +33,6 @@ class _GarageListViewState extends State<GarageListView> {
             setState(() {
               _navBarIndex = index;
             });
-
           },
           items: [
             new BottomNavigationBarItem(
