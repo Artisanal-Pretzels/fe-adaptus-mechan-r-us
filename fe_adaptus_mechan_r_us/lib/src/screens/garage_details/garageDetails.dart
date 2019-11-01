@@ -1,24 +1,10 @@
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
-import 'package:fe_adaptus_mechan_r_us/src/screens/video_call/Calling.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/GarageOverview.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
-
-import '../video_call/Signaling.dart';
-
-//class  extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//        appBar: AppBar(
-//          title: Text('Garage Details'),
-//          centerTitle: true,
-//        ),
-//        body: GarageOverview());
-//  }
-//}
 
 class GarageDetails extends StatefulWidget {
   final Garage selectedGarage;
@@ -33,7 +19,6 @@ class _GarageDetailsState extends State<GarageDetails> {
   SingleGarage newGarage;
   List<Review> reviewsList;
   var signalInst;
-
 
   Future<Null> fetchedSingleGarage() async {
     String selectedGarageId = widget.selectedGarage.garageID.toString();
@@ -335,8 +320,8 @@ class _ReviewsListState extends State<ReviewsList> {
 
           ),
       );
-
+    }
   }
-
 }
+
 

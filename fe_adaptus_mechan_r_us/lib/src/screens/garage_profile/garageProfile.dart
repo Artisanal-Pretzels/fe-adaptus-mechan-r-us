@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 //import '../widgets/invoice.dart'
-import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/garageDetails.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/TitleInfo.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/TopImage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/api/api.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_webrtc/webrtc.dart';
+import 'dart:io';
+import 'dart:core';
+import '../video_call/Signaling.dart';
+
 
 class GarageProfile extends StatefulWidget {
   final String _calls = '173';
@@ -29,16 +35,32 @@ class GarageProfile extends StatefulWidget {
 //  GarageProfile(this.selectedGarage);
 
   @override
-  _GarageProfileState createState() => _GarageProfileState();
+  _GarageProfileState createState() => _GarageProfileState(serverIP: "192.168.230.119", userId: _garageID.toString());
 }
 
 class _GarageProfileState extends State<GarageProfile> {
-
   SingleGarage newGarage;
   List<Invoice> invoiceList;
   List<Review> reviewsList;
+
   bool invoiceToggle = false;
   bool reviewToggle = false;
+
+
+  Signaling _signaling;
+  String _displayName =
+      Platform.localHostname + '(' + Platform.operatingSystem + ")";
+  List<dynamic> _peers;
+  var _selfId;
+  RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
+  RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
+  bool _inCalling = false;
+  final String serverIP;
+  final String userId;
+//  final String GarageToCallId;
+
+  _GarageProfileState({Key key, @required this.serverIP, this.userId});
+
 
   Future<Null> fetchedSingleGarage(garageID) async {
     String selectedGarageId = garageID.toString();
@@ -54,7 +76,6 @@ class _GarageProfileState extends State<GarageProfile> {
   Future<Null> fetchedInvoices() async {
     String selectedGarageId = newGarage.garageID.toString();
     var asyncResult = await getInvoices(selectedGarageId);
-    print(asyncResult.toString());
     setState(() {
       invoiceList = asyncResult;
     });
@@ -68,7 +89,6 @@ class _GarageProfileState extends State<GarageProfile> {
   }
 
 
-
   void invoiceButtonPress() {
     setState(() {
       invoiceToggle = !invoiceToggle;
@@ -79,20 +99,110 @@ class _GarageProfileState extends State<GarageProfile> {
     setState(() {
       reviewToggle = !reviewToggle;
     });
+
   }
 
   @override
   void initState() {
     // TODO: implement initState
     fetchedSingleGarage(widget._garageID);
+
     super.initState();
+    initRenderers();
+    _connect();
+  }
+
+  initRenderers() async {
+    await _localRenderer.initialize();
+    await _remoteRenderer.initialize();
   }
 
 
   @override
+  deactivate() {
+    super.deactivate();
+    if (_signaling != null) _signaling.close();
+    _localRenderer.dispose();
+    _remoteRenderer.dispose();
+  }
+
+  void _connect() async {
+
+    if (_signaling == null) {
+      _signaling = new Signaling(serverIP, _displayName, userId)
+        ..connect();
+
+      _signaling.onStateChange = (SignalingState state) {
+        switch (state) {
+          case SignalingState.CallStateNew:
+            this.setState(() {
+              _inCalling = true;
+            });
+            break;
+          case SignalingState.CallStateBye:
+            this.setState(() {
+              _localRenderer.srcObject = null;
+              _remoteRenderer.srcObject = null;
+              _inCalling = false;
+            });
+            break;
+          case SignalingState.CallStateInvite:
+          case SignalingState.CallStateConnected:
+          case SignalingState.CallStateRinging:
+          case SignalingState.ConnectionClosed:
+          case SignalingState.ConnectionError:
+          case SignalingState.ConnectionOpen:
+            break;
+        }
+      };
+
+      _signaling.onPeersUpdate = ((event) {
+        this.setState(() {
+          _selfId = event['self'];
+          _peers = event['peers'];
+        });
+      });
+
+      _signaling.onLocalStream = ((stream) {
+        _localRenderer.srcObject = stream;
+      });
+
+      _signaling.onAddRemoteStream = ((stream) {
+        _remoteRenderer.srcObject = stream;
+      });
+
+      _signaling.onRemoveRemoteStream = ((stream) {
+        _remoteRenderer.srcObject = null;
+      });
+    }
+  }
+
+  _invitePeer(context, peerId, use_screen) async {
+    if (_signaling != null && peerId != _selfId) {
+      _signaling.invite(peerId, 'video', use_screen);
+    }
+  }
+
+  _hangUp() {
+    if (_signaling != null) {
+    _signaling.bye();
+    }
+
+  }
+
+  _switchCamera() {
+    _signaling.switchCamera();
+  }
+
+  _muteMic() {
+
+  }
+
+  @override
   Widget build(BuildContext context) {
 //    Size screenSize = MediaQuery.of(context).size;
-    if (newGarage != null) {
+
+    if (newGarage != null && reviewsList != null && invoiceList != null && _inCalling == false) {
       return Scaffold(
         appBar: AppBar(
           title: Text('Garage Profile'),
@@ -107,6 +217,7 @@ class _GarageProfileState extends State<GarageProfile> {
                   newGarage.reviews.last['rating'].toDouble(),
                   newGarage.basePrice
               ),
+
 //                  SizedBox(height: screenSize.height / 6.4),
 //                  BuildFullName(newGarage.garageName),
      _BuildStatContainer(widget._calls, widget._views),
@@ -124,9 +235,68 @@ DisplayReviewList(reviewToggle, reviewsList),
             ],
         )),
       );
-    } else {
+    } else if (_inCalling == false){
       return new Center(
         child: new CircularProgressIndicator(),
+      );
+    } else {
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Video Call'),
+          centerTitle: true,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: new SizedBox(
+            width: 200.0,
+            child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FloatingActionButton(
+                    child: const Icon(Icons.switch_camera),
+                    onPressed: _switchCamera,
+                  ),
+                  FloatingActionButton(
+                    onPressed: _hangUp,
+                    tooltip: 'Hangup',
+                    child: new Icon(Icons.call_end),
+                    backgroundColor: Colors.pink,
+                  ),
+                FloatingActionButton(
+                  child: const Icon(Icons.mic_off),
+                  onPressed: _muteMic,
+                )
+                ])),
+        body: OrientationBuilder(builder: (context, orientation) {
+          return new Container(
+            child: new Stack(children: <Widget>[
+              new Positioned(
+                  left: 0.0,
+                  right: 0.0,
+                  top: 0.0,
+                  bottom: 0.0,
+                  child: new Container(
+                    margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: new RTCVideoView(_remoteRenderer),
+                    decoration: new BoxDecoration(color: Colors.black54),
+                  )),
+              new Positioned(
+                left: 20.0,
+                top: 20.0,
+                child: new Container(
+                  width: orientation == Orientation.portrait ? 90.0 : 120.0,
+                  height:
+                  orientation == Orientation.portrait ? 120.0 : 90.0,
+                  child: new RTCVideoView(_localRenderer),
+                  decoration: new BoxDecoration(color: Colors.black54),
+                ),
+              ),
+            ]),
+          );
+        })
+
+
       );
     }
   }
@@ -157,7 +327,6 @@ class _BuildStatContainer extends StatelessWidget {
     );
   }
 }
-
 
 class BuildStatItem extends StatelessWidget {
   final String count;
@@ -198,19 +367,6 @@ class BuildStatItem extends StatelessWidget {
   }
 }
 
-
-
-//
-//Widget _buildSeparator(Size screenSize) {
-//  return Container(
-//    width: screenSize.width / 1.6,
-//    height: 2.0,
-//    color: Colors.black54,
-//    margin: EdgeInsets.only(top: 4.0),
-//  );
-//}
-
-
 class InvoiceList extends StatefulWidget {
   final List invoices;
   InvoiceList(this.invoices);
@@ -248,6 +404,7 @@ class _InvoiceListState extends State<InvoiceList> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
+
                   'Username: ${widget.invoices[index].username}',
                   style: new TextStyle(fontSize: 15.0),
                 ),
@@ -263,7 +420,6 @@ class _InvoiceListState extends State<InvoiceList> {
                    Text('Parts: ${widget.invoices[index].parts.toString()}'),
                  ]
                )
-
               ],
             ),
           ),

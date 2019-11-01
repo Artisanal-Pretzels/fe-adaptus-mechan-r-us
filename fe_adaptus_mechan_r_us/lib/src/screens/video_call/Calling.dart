@@ -120,9 +120,7 @@ class _CallSampleState extends State<CallSample> {
     _signaling.switchCamera();
   }
 
-  _muteMic() {
-
-  }
+  _muteMic() {}
 
   _buildRow(context, peer) {
 //    var self = (peer['id'] == _selfId);
@@ -198,51 +196,49 @@ class _CallSampleState extends State<CallSample> {
                   child: new Icon(Icons.call_end),
                   backgroundColor: Colors.pink,
                 ),
-//                FloatingActionButton(
-//                  child: const Icon(Icons.mic_off),
-//                  onPressed: _muteMic,
-//                )
+                FloatingActionButton(
+                  child: const Icon(Icons.mic_off),
+                  onPressed: _muteMic,
+                )
               ])) : null,
       body: _inCalling
           ? OrientationBuilder(builder: (context, orientation) {
-        return new Container(
-          child: new Stack(children: <Widget>[
-            new Positioned(
-                left: 0.0,
-                right: 0.0,
-                top: 0.0,
-                bottom: 0.0,
-                child: new Container(
-                  margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: new RTCVideoView(_remoteRenderer),
-                  decoration: new BoxDecoration(color: Colors.black54),
-                )),
-            new Positioned(
-              left: 20.0,
-              top: 20.0,
-              child: new Container(
-                width: orientation == Orientation.portrait ? 90.0 : 120.0,
-                height:
-                orientation == Orientation.portrait ? 120.0 : 90.0,
-                child: new RTCVideoView(_localRenderer),
-                decoration: new BoxDecoration(color: Colors.black54),
-              ),
-            ),
-          ]),
-        );
-      })
-          :  _buildRow("", ""),
-//      new ListView.builder(
-//          shrinkWrap: true,
-//          padding: const EdgeInsets.all(0.0),
-//          itemCount: (_peers != null ? _peers.length : 0),
-//          itemBuilder: (context, i) {
-//            return _buildRow(context, _peers[i]);
-//          }),
-
-
+              return new Container(
+                child: new Stack(children: <Widget>[
+                  new Positioned(
+                      left: 0.0,
+                      right: 0.0,
+                      top: 0.0,
+                      bottom: 0.0,
+                      child: new Container(
+                        margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: new RTCVideoView(_remoteRenderer),
+                        decoration: new BoxDecoration(color: Colors.black54),
+                      )),
+                  new Positioned(
+                    left: 20.0,
+                    top: 20.0,
+                    child: new Container(
+                      width: orientation == Orientation.portrait ? 90.0 : 120.0,
+                      height:
+                          orientation == Orientation.portrait ? 120.0 : 90.0,
+                      child: new RTCVideoView(_localRenderer),
+                      decoration: new BoxDecoration(color: Colors.black54),
+                    ),
+                  ),
+                ]),
+              );
+            })
+          : _buildRow("", ""),
+//new ListView.builder(
+    //          shrinkWrap: true,
+    //          padding: const EdgeInsets.all(0.0),
+    //          itemCount: (_peers != null ? _peers.length : 0),
+    //          itemBuilder: (context, i) {
+    //            return _buildRow(context, _peers[i]);
+    //          }),
     );
   }
 }
