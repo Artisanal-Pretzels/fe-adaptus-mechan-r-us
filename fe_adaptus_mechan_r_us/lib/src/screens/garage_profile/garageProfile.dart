@@ -7,6 +7,7 @@ import 'package:fe_adaptus_mechan_r_us/src/classes/singleGarage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/garage.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Invoice.dart';
 import 'package:fe_adaptus_mechan_r_us/src/classes/Review.dart';
+import 'package:fe_adaptus_mechan_r_us/src/screens/garage_details/ReviewList.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_webrtc/webrtc.dart';
 import 'dart:io';
